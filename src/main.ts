@@ -13,7 +13,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe())
 
-  await app.listen(process.env.NODE_ENV==="development"? 5000:5001);
+  await app.listen(process.env.PORT || (process.env.NODE_ENV === 'development' ? 5000 : 5001));
 
   app.use(helmet());
 
