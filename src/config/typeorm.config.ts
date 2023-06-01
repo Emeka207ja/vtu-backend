@@ -1,5 +1,6 @@
 import { TypeOrmModuleAsyncOptions } from "@nestjs/typeorm";
-
+import { Profile } from "src/profile/entity/profile.entitity";
+import { Auth } from "src/auth/entity/auth.entity";
 
 export const typeormConfig: TypeOrmModuleAsyncOptions = {
    useFactory: async() => (
@@ -11,7 +12,7 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
 
     synchronize: true,
 
-    entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    entities: [Auth,Profile],
     // entities: [AuthEntity,taskEntity],
 
 }
