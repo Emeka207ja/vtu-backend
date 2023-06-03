@@ -12,6 +12,8 @@ async function bootstrap() {
   app.use(morgan("dev"));
 
   app.useGlobalPipes(new ValidationPipe())
+  
+  app.enableCors();
 
   await app.listen(process.env.PORT || (process.env.NODE_ENV === 'development' ? 5000 : 5001));
 
