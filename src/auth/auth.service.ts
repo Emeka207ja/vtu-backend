@@ -66,12 +66,9 @@ export class AuthService {
     }
 
     async _find(id: string): Promise<Auth|Error> {
-        try {
-            const user = await this.authRepository.findOneBy({ id })
+        const user = await this.authRepository.findOneBy({ id })
+        if(!user) throw new NotFoundException("user not found")
             return user;
-        } catch (e) {
-            console.log(e)
-        }
     }
     
 }

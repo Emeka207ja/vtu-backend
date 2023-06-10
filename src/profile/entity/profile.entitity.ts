@@ -1,8 +1,8 @@
-import { Entity, Column, Index,OneToOne,JoinColumn } from "typeorm";
-import { IsString,IsPhoneNumber,IsEmail,IsEnum, IsBoolean } from "class-validator";
+import { Entity, Column, Index,OneToOne,JoinColumn,OneToMany } from "typeorm";
+import { IsString,IsPhoneNumber,IsEmail,IsEnum, IsBoolean,IsNumber } from "class-validator";
 import { BaseTable } from "src/base/baseTable";
 import { Auth } from "src/auth/entity/auth.entity";
-
+import { Fund } from "src/fund/entity/create-fund";
 
 
 export enum Gender{
@@ -29,6 +29,10 @@ export class Profile extends BaseTable {
     @IsString()
     lastname: string;
 
+    @Column({ default: 0})
+    @IsNumber()
+    balance: number;
+
     @Column({type:"text", default: null})
     @IsString()
     username: string;
@@ -53,7 +57,10 @@ export class Profile extends BaseTable {
     image: string;
 
     
-    @OneToOne(()=>Auth, (auth)=>auth.profile)
+    @OneToOne(() => Auth, (auth) => auth.profile)
     @JoinColumn()
-    auth:Auth
+    auth: Auth;
+
+    @OneToMany(() => Fund, (fund) => fund.profile)
+    fund:Fund[]
 }

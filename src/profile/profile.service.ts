@@ -34,13 +34,20 @@ export class ProfileService {
         delete profile.verified;
         assign(profile, updateDto);
         await this.profileRepository.save(profile);
-        return profile
+        return profile;
     }
+
+    async updateBalance(id: string, amount: number) {
+        const profile = await this._find(id);
+        profile.balance += amount
+        await this.profileRepository.save(profile)
+     }
+    
     async updateProfilePic() { }
     
     async _find(id: string) {
         const user = await this.profileRepository.findOneBy({ id });
-        if (!user) throw new NotFoundException();
+        if (!user) throw new NotFoundException("user not found");
         return user;
     }
 }
