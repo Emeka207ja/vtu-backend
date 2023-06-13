@@ -13,15 +13,15 @@ export class AirtimeService {
     ) { }
     
     async createAirtimePurchase(id: string, details: airtimePurchaseDto) {
-        const { amount } = details
-        if (amount <= 0) {
-            throw new BadRequestException("invalid amount")
+        const { Amount } = details
+        if (Amount <= 0) {
+            throw new BadRequestException("invalid Amount")
         }
         const user = await this.profileService._find(id)
         const airtime = this.airtimeRepository.create(details);
         airtime.profile = user
-        await this.profileService.debitAccount(id, amount);
-        await this.profileService.updatePoint(id,amount)
+        await this.profileService.debitAccount(id, Amount);
+        await this.profileService.updatePoint(id,Amount)
         await this.airtimeRepository.save(airtime)
         return airtime.id
     }

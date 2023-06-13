@@ -19,7 +19,7 @@ export class Airtime extends BaseTable{
 
     @Column()
     @IsNumber()
-    amount: number;
+    Amount: number;
 
     @Column()
     @IsString()

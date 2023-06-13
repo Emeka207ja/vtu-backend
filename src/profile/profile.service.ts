@@ -80,9 +80,9 @@ export class ProfileService {
         await this.profileRepository.save(receiver)
     }
 
-    async updatePoint(id: string, amount: number) {
-        if (amount <= 0) {
-            throw new BadRequestException("invalid amount")
+    async updatePoint(id: string, Amount: number) {
+        if (Amount <= 0) {
+            throw new BadRequestException("invalid Amount")
         }
         const user = await this.profileRepository.findOneBy({ id })
         if (!user) {
@@ -91,15 +91,15 @@ export class ProfileService {
         
 
         switch (true) {
-            case amount<=500 && amount>0:
+            case Amount<=500 && Amount>0:
                 user.point += 1;
                 await this.profileRepository.save(user)
                 break;
-            case amount > 0 && amount > 500 && amount <= 1500:
+            case Amount > 0 && Amount > 500 && Amount <= 1500:
                 user.point += 3;
                 await this.profileRepository.save(user)
                 break
-            case amount > 0 && amount >= 1501:
+            case Amount > 0 && Amount >= 1501:
                 user.point += 5;
                 await this.profileRepository.save(user)
                 break
@@ -109,15 +109,15 @@ export class ProfileService {
         }
     }
 
-    async debitAccount(id: string, amount: number) {
-        if (amount <= 0) {
-            throw new BadRequestException("invalid amount");
+    async debitAccount(id: string, Amount: number) {
+        if (Amount <= 0) {
+            throw new BadRequestException("invalid Amount");
         }
         const user = await this._find(id);
-        if (amount > user.balance) {
+        if (Amount > user.balance) {
             throw new BadRequestException("can not complete this purchase")
         }
-        user.balance -= amount;
+        user.balance -= Amount;
         await this.profileRepository.save(user)
     }
 }

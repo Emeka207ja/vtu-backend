@@ -8,7 +8,7 @@ export class airtimePurchaseDto{
     phone: string;
 
     @IsNumber()
-    amount: number;
+    Amount: number;
 
     @IsString()
     order_id: string;
