@@ -1,15 +1,15 @@
-import { IsString, IsNumber, IsPhoneNumber } from "class-validator";
+import { IsString, IsNumber } from "class-validator";
 
 export class airtimePurchaseDto{
     @IsString()
     network: string;
 
-    @IsPhoneNumber()
+    @IsString()
     phone: string;
 
     @IsNumber()
     Amount: number;
 
-    @IsString()
-    order_id: string;
+    @IsNumber()
+    order_id: number;
 }

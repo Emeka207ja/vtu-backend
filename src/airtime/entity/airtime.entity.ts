@@ -1,5 +1,5 @@
 import { Entity, Column, ManyToOne } from "typeorm"
-import { IsString, IsPhoneNumber, IsNumber } from "class-validator"
+import { IsString,  IsNumber } from "class-validator"
 import { BaseTable } from "src/base/baseTable"
 import { Profile } from "src/profile/entity/profile.entitity"
 
@@ -14,7 +14,7 @@ export class Airtime extends BaseTable{
     // data_plan: string;
 
     @Column()
-    @IsPhoneNumber()
+    @IsString()
     phone: string;
 
     @Column()
@@ -22,8 +22,8 @@ export class Airtime extends BaseTable{
     Amount: number;
 
     @Column()
-    @IsString()
-    order_id: string;
+    @IsNumber()
+    order_id: number;
 
     @ManyToOne(()=>Profile,(profile)=>profile.airtime)
     profile:Profile
