@@ -21,7 +21,7 @@ export class Airtime extends BaseTable{
     @IsNumber()
     Amount: number;
 
-    @Column()
+    @Column({default:0})
     @IsNumber()
     order_id: number;
 
