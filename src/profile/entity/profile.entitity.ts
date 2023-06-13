@@ -3,6 +3,8 @@ import { IsString,IsPhoneNumber,IsEmail,IsEnum, IsBoolean,IsNumber } from "class
 import { BaseTable } from "src/base/baseTable";
 import { Auth } from "src/auth/entity/auth.entity";
 import { Fund } from "src/fund/entity/create-fund";
+import { Peer } from "src/peer-transfer/entity/peer.entity";
+import { Airtime } from "src/airtime/entity/airtime.entity";
 
 
 export enum Gender{
@@ -33,6 +35,10 @@ export class Profile extends BaseTable {
     @IsNumber()
     balance: number;
 
+    @Column({ default: 0})
+    @IsNumber()
+    point: number;
+
     @Column({type:"text", default: null})
     @IsString()
     username: string;
@@ -62,5 +68,12 @@ export class Profile extends BaseTable {
     auth: Auth;
 
     @OneToMany(() => Fund, (fund) => fund.profile)
-    fund:Fund[]
+    fund: Fund[]
+
+    @OneToMany(() => Peer, (peer) => peer.profile)
+    p2p: Peer[]
+
+    @OneToMany(() => Airtime, (airtime) => airtime.profile)
+    airtime: Airtime[]
+    
 }

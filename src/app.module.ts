@@ -9,6 +9,8 @@ import {typeormConfig} from "./config/typeorm.config"
 import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { FundModule } from './fund/fund.module';
+import { PeerTransferModule } from './peer-transfer/peer-transfer.module';
+import { AirtimeModule } from './airtime/airtime.module';
 
 @Module({
   imports: [
@@ -26,6 +28,8 @@ import { FundModule } from './fund/fund.module';
     AuthModule,
     ProfileModule,
     FundModule,
+    PeerTransferModule,
+    AirtimeModule,
   ],
   controllers: [AppController],
   providers: [
