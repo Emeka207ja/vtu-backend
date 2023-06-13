@@ -17,10 +17,31 @@ export class AirtimeService {
         if (amount <= 0) {
             throw new BadRequestException("invalid amount")
         }
+        const user = await this.profileService._find(id)
         const airtime = this.airtimeRepository.create(details);
+        airtime.profile = user
         await this.profileService.debitAccount(id, amount);
         await this.profileService.updatePoint(id,amount)
         await this.airtimeRepository.save(airtime)
         return airtime.id
     }
+
+    async fetchAllAirtimePurchase(id: string) {
+        console.log(id)
+        const allAirtime = await this.airtimeRepository.find({
+            where:{profile:{id}}
+        })
+        return allAirtime;
+    }
+
+    async deleteAirtimeHistory(id: string) {
+        const Qbuilder = this.airtimeRepository.createQueryBuilder("airtime")
+            .leftJoin("airtime.profile", "profile")
+             .where("profile = :id",{id})
+            
+           
+        // await this.airtimeRepository.remove()
+       
+    }
+
 }
