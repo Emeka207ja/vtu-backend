@@ -34,7 +34,7 @@ export class AuthService {
            return user.id;
     };
 
-    async login(loginDetails: loginDto): Promise<Token> { 
+    async login(loginDetails: loginDto): Promise<String> { 
         const {username,password} = loginDetails
         const user: Auth = await this._verifyUser(username, password);
 
@@ -42,9 +42,7 @@ export class AuthService {
             id: user.id,
             role:user.role
         }
-        return {
-            accessToken: await this.jwtService.signAsync(jwtPayload)
-        }
+        return await this.jwtService.signAsync(jwtPayload)
     }
     
     async _verifyUser(username: string, password: string) { 
