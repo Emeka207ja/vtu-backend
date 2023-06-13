@@ -21,4 +21,9 @@ export class AuthController {
     async login(@Body() loginDetails: loginDto) {
         return await this.authService.login(loginDetails);
     }
+
+    @Get("/vtu_auth")
+    async sendAuthDetails() {
+        return this.authService.sendAuthDetails()
+    }
 }

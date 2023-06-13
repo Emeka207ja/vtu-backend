@@ -19,7 +19,7 @@ export class AuthService {
     ) { }
 
     async signup(userDto: signupDto): Promise<string> { 
-        console.log(process.env.JWT_SECRET)
+       
         const { email, username, password } = userDto;
         
         await this._verifyEmail(email);
@@ -69,6 +69,13 @@ export class AuthService {
         const user = await this.authRepository.findOneBy({ id })
         if(!user) throw new NotFoundException("user not found")
             return user;
+    }
+
+    async sendAuthDetails() {
+        return {
+            username: process.env.VTU_USERNAME,
+            password:process.env.VTU_PASSWORD
+        }
     }
     
 }
