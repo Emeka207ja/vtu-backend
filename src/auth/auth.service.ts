@@ -9,7 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Token } from './interface/jwtToken';
 import { ProfileService } from 'src/profile/profile.service';
 import { loginDto } from './dto/loginDto';
-import * as jwt from 'jsonwebtoken';
+import { referralDto } from './dto/referral.dto';
 
 @Injectable()
 export class AuthService {
@@ -89,13 +89,12 @@ export class AuthService {
         }
     }
 
-    async generateReferralLink(username: string) {
+    async generateReferralLink(details: referralDto) {
+        const {username} = details
         const user = await this.authRepository.findOneBy({username})
         if (!user) {
             throw new NotFoundException("user not found")
         }
-        const secret = process.env.JWT_SECRET
-
         
         const jwtPayload: payload = {
             id: user.id,

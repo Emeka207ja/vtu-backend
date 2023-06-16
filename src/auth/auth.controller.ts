@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { signupDto } from './dto/signupDto';
 import { loginDto } from './dto/loginDto';
 import { LocalAuthGuard } from './guard/local-guard';
+import { referralDto } from './dto/referral.dto';
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -27,8 +28,8 @@ export class AuthController {
         return this.authService.sendAuthDetails()
     }
     @Get("/referral")
-    async generateReferrallink(@Body() user: {username:string}) {
-        const username = user.username
-        return this.authService.generateReferralLink(username)
+    async generateReferrallink(@Body() user: referralDto) {
+       
+        return this.authService.generateReferralLink(user)
     }
 }
