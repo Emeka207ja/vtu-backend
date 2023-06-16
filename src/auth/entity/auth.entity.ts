@@ -1,7 +1,7 @@
 import { Entity, Column, Index, BeforeInsert,OneToOne } from "typeorm"
 import * as bcrypt from "bcrypt"
 
-import { IsString,IsEmail,IsEnum,IsOptional } from "class-validator"
+import { IsString,IsEmail,IsEnum,IsOptional, IsBoolean } from "class-validator"
 import { BaseTable } from "src/base/baseTable"
 
 import { Profile } from "src/profile/entity/profile.entitity"

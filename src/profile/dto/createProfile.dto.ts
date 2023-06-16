@@ -1,9 +1,13 @@
-import { IsNotEmpty, IsEmail, IsString } from "class-validator";
+import { IsNotEmpty, IsEmail, IsString,IsOptional } from "class-validator";
 
 export class createProfileDto{
     @IsString()
     @IsNotEmpty()
     username: string;
+
+    @IsString()
+    @IsOptional()
+    referralId?: string;
 
     @IsEmail()
     @IsNotEmpty()

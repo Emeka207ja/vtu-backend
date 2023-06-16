@@ -15,6 +15,13 @@ export class ProfileController {
     @Get()
     async getProfile(@Req() req: Request & reqUser) {
         return await this.profileService.getProfile(req.user.id);
+    }
+    
+    
+    @UseGuards(JwtAuthGuard)
+    @Get("/redeem_point")
+    async reedemPoint(@Req() req: Request & reqUser) {
+        return await this.profileService.reedemPoint(req.user.id);
      }
      
     @UseGuards(JwtAuthGuard)

@@ -26,4 +26,9 @@ export class AuthController {
     async sendAuthDetails() {
         return this.authService.sendAuthDetails()
     }
+    @Get("/referral")
+    async generateReferrallink(@Body() user: {username:string}) {
+        const username = user.username
+        return this.authService.generateReferralLink(username)
+    }
 }

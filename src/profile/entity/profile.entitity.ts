@@ -1,5 +1,5 @@
 import { Entity, Column, Index,OneToOne,JoinColumn,OneToMany } from "typeorm";
-import { IsString,IsPhoneNumber,IsEmail,IsEnum, IsBoolean,IsNumber } from "class-validator";
+import { IsString,IsPhoneNumber,IsEmail,IsEnum, IsBoolean,IsNumber, IsOptional} from "class-validator";
 import { BaseTable } from "src/base/baseTable";
 import { Auth } from "src/auth/entity/auth.entity";
 import { Fund } from "src/fund/entity/create-fund";
@@ -61,6 +61,21 @@ export class Profile extends BaseTable {
     @Column({ type: "text", default: null })
     @IsString()
     image: string;
+
+     @Column({type:"bool",default:"false"})
+    @IsOptional()
+    @IsBoolean()
+    isReferred: boolean
+    
+    @Column({type:"text",default:null})
+    @IsOptional()
+    @IsString()
+    ReferredBy: string
+    
+    @Column({type:"integer",default:0})
+    @IsOptional()
+    @IsNumber()
+    ReferralCount:number
 
     
     @OneToOne(() => Auth, (auth) => auth.profile)

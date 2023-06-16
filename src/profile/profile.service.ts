@@ -5,6 +5,7 @@ import { Profile } from './entity/profile.entitity';
 import { createProfileDto } from './dto/createProfile.dto';
 import { assign } from "lodash"
 import { updateProfileDto } from './dto/updateProfile.dto';
+import { userInfo } from 'os';
 
 @Injectable()
 export class ProfileService {
@@ -13,6 +14,17 @@ export class ProfileService {
     ) { }
     
     async createProfile(profileDto: createProfileDto): Promise<Profile> {
+
+       
+        if (profileDto.referralId) {
+            const profile = this.profileRepository.create(profileDto)
+            const referal = await this._find(profileDto.referralId)
+            profile.ReferredBy = referal.username;
+            profile.isReferred = true;
+            await this.profileRepository.save(profile)
+            return profile;
+        }
+        
         const profile = this.profileRepository.create(profileDto)
         await this.profileRepository.save(profile)
         return profile;
@@ -52,6 +64,12 @@ export class ProfileService {
         const user = await this.profileRepository.findOneBy({ id });
         if (!user) throw new NotFoundException("user not found");
         return user;
+    }
+
+    async updateUserReferral(id: string) {
+        const user = await this._find(id)
+        user.ReferralCount += 1
+        await this.profileRepository.save(user)
     }
 
     async findUserByName(name: string) {
@@ -119,5 +137,17 @@ export class ProfileService {
         }
         user.balance -= Amount;
         await this.profileRepository.save(user)
+    }
+
+    async reedemPoint(id: string) {
+        const user = await this._find(id);
+        const debitable = 100
+        if (user.point < debitable) {
+            throw new BadRequestException("insufficient point")
+        }
+        user.point -= debitable;
+        user.balance += 5;
+        await this.profileRepository.save(user);
+        return user.id
     }
 }
