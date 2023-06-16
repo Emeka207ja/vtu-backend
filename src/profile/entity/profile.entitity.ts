@@ -62,10 +62,17 @@ export class Profile extends BaseTable {
     @IsString()
     image: string;
 
-     @Column({type:"bool",default:"false"})
+    @Column({type:"bool",default:"false"})
     @IsOptional()
     @IsBoolean()
     isReferred: boolean
+
+    @Column({type:"bool",default:"false"})
+    @IsOptional()
+    @IsBoolean()
+    isFunded: boolean
+
+   
     
     @Column({type:"text",default:null})
     @IsOptional()
@@ -75,7 +82,12 @@ export class Profile extends BaseTable {
     @Column({type:"integer",default:0})
     @IsOptional()
     @IsNumber()
-    ReferralCount:number
+    ReferralCount: number
+    
+    @Column({type:"integer",default:0})
+    @IsOptional()
+    @IsNumber()
+    TotalReferred:number
 
     
     @OneToOne(() => Auth, (auth) => auth.profile)

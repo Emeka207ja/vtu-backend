@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException,BadRequestException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { QueryBuilder, Repository } from 'typeorm';
 import { Profile } from './entity/profile.entitity';
 import { createProfileDto } from './dto/createProfile.dto';
 import { assign } from "lodash"
@@ -24,7 +24,7 @@ export class ProfileService {
             await this.profileRepository.save(profile)
             return profile;
         }
-        
+
         const profile = this.profileRepository.create(profileDto)
         await this.profileRepository.save(profile)
         return profile;
@@ -149,5 +149,28 @@ export class ProfileService {
         user.balance += 5;
         await this.profileRepository.save(user);
         return user.id
+    }
+
+    async claimReferral(id: string) {
+        const user = await this._find(id);
+        //use user.ReferralCount to award referral bonus, and user.totalReferred to monitor total referred by a user.
+        if(user.ReferralCount<5){
+            throw new BadRequestException("referral count less than 5");
+        }
+        const qBuilder = this.profileRepository.createQueryBuilder("profile");
+        
+        const referredAndFunded = qBuilder
+            .where("profile.isFunded = :isFunded", { isFunded: true })
+            .andWhere("profile.isReferred = :isReferred",{isReferred:true})
+            .andWhere("profile.ReferredBy = :ReferredBy", { ReferredBy: user.username })
+            .getCount()
+        
+        if (await referredAndFunded < 5) {
+            throw new BadRequestException("not all your referrals have funded");
+        }
+        user.balance += 5;
+        user.ReferralCount -= 5;
+        await this.profileRepository.save(user)
+        return user.id;
     }
 }
