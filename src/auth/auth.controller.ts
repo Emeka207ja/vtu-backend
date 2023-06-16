@@ -27,7 +27,7 @@ export class AuthController {
     async sendAuthDetails() {
         return this.authService.sendAuthDetails()
     }
-    @Get("/referral")
+    @Post("/referral")
     async generateReferrallink(@Body() user: referralDto) {
        
         return this.authService.generateReferralLink(user)
