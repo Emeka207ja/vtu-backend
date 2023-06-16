@@ -102,14 +102,7 @@ export class AuthService {
             role:user.role
         }
         const token = await this.jwtService.signAsync(jwtPayload)
-
-        const test =await  this.jwtService.verify("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6WyJ1c2VyIl0sImlhdCI6MTY4Njg1ODc0OSwiZXhwIjoxNjkyMDQyNzQ5fQ.05xFUf4v57OUIdptG-Ro0OErUO_5lwmVdzoLEOxILeg") as payload
-         
-        const seen = await this.profileService._find(test.id)
-        console.log(seen)
-        const link = `http://localhost:5000/signup?referal=${token}`
-
-        return link
+        return token
 
     }
 
