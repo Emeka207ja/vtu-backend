@@ -54,7 +54,8 @@ export class ProfileService {
             throw new BadRequestException("invalid amount")
         }
         const profile = await this._find(id);
-        profile.balance += amount
+        profile.balance += amount;
+        profile.isFunded = true;
         await this.profileRepository.save(profile)
      }
     
@@ -153,6 +154,7 @@ export class ProfileService {
 
     async claimReferral(id: string) {
         const user = await this._find(id);
+        console.log(user)
         //use user.ReferralCount to award referral bonus, and user.totalReferred to monitor total referred by a user.
         if(user.ReferralCount<5){
             throw new BadRequestException("referral count less than 5");
@@ -165,7 +167,7 @@ export class ProfileService {
             .andWhere("profile.ReferredBy = :ReferredBy", { ReferredBy: user.username })
             .getCount()
         
-        if (await referredAndFunded < 5) {
+        if (await referredAndFunded <= 0) {
             throw new BadRequestException("not all your referrals have funded");
         }
         user.balance += 5;

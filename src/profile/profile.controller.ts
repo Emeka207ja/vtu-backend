@@ -25,6 +25,12 @@ export class ProfileController {
      }
      
     @UseGuards(JwtAuthGuard)
+    @Get("/claim_referral")
+    async claimReferral(@Req() req: Request & reqUser) {
+        return await this.profileService.claimReferral(req.user.id);
+     }
+     
+    @UseGuards(JwtAuthGuard)
     @Patch()
     async updateProfile(@Body() profileDto: updateProfileDto, @Req() req: Request & reqUser) {
         return await this.profileService.updateProfile(req.user.id, profileDto);
