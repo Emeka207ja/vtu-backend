@@ -168,7 +168,7 @@ export class ProfileService {
             .andWhere("profile.ReferredBy = :ReferredBy", { ReferredBy: user.username })
             .getCount()
         
-        if (await referredAndFunded <= 0) {
+        if (await referredAndFunded <= 4) {
             throw new BadRequestException("not all your referrals have funded");
         }
         user.balance += 5;
