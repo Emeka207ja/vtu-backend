@@ -69,7 +69,8 @@ export class ProfileService {
 
     async updateUserReferral(id: string) {
         const user = await this._find(id)
-        user.ReferralCount += 1
+        user.ReferralCount += 1;
+        user.TotalReferred += 1;
         await this.profileRepository.save(user)
     }
 
