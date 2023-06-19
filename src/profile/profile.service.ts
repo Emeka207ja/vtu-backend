@@ -135,7 +135,7 @@ export class ProfileService {
         }
         const user = await this._find(id);
         if (Amount > user.balance) {
-            throw new BadRequestException("can not complete this purchase")
+            throw new BadRequestException("insufficient funds")
         }
         user.balance -= Amount;
         await this.profileRepository.save(user)

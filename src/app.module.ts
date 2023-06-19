@@ -11,6 +11,7 @@ import { ProfileModule } from './profile/profile.module';
 import { FundModule } from './fund/fund.module';
 import { PeerTransferModule } from './peer-transfer/peer-transfer.module';
 import { AirtimeModule } from './airtime/airtime.module';
+import { CableModule } from './cable/cable.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { AirtimeModule } from './airtime/airtime.module';
     FundModule,
     PeerTransferModule,
     AirtimeModule,
+    CableModule,
   ],
   controllers: [AppController],
   providers: [
