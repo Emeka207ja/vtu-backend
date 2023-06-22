@@ -6,6 +6,7 @@ import { Fund } from "src/fund/entity/create-fund";
 import { Peer } from "src/peer-transfer/entity/peer.entity";
 import { Airtime } from "src/airtime/entity/airtime.entity";
 import { Cable } from "../../cable/entity/Cable.entity";
+import { Electric } from "src/electricity/entity/electric.entity";
 
 
 export enum Gender{
@@ -106,5 +107,8 @@ export class Profile extends BaseTable {
 
     @OneToMany(() => Cable, (cable) => cable.profile)
     cable: Cable[]
+
+    @OneToMany(() => Electric, (electric) => electric.profile)
+    electric: Electric[]
     
 }

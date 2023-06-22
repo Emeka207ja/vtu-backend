@@ -5,6 +5,7 @@ import { Fund } from "src/fund/entity/create-fund";
 import { Peer } from "src/peer-transfer/entity/peer.entity";
 import { Airtime } from "src/airtime/entity/airtime.entity";
 import { Cable } from "src/cable/entity/Cable.entity";
+import { Electric } from "src/electricity/entity/electric.entity";
 
 export const typeormConfig: TypeOrmModuleAsyncOptions = {
    useFactory: async() => (
@@ -16,7 +17,7 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
 
     synchronize: true,
 
-    entities: [Auth,Profile,Fund,Peer,Airtime,Cable],
+    entities: [Auth,Profile,Fund,Peer,Airtime,Cable,Electric],
     // entities: [AuthEntity,taskEntity],
 
 }

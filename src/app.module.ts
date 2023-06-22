@@ -12,6 +12,7 @@ import { FundModule } from './fund/fund.module';
 import { PeerTransferModule } from './peer-transfer/peer-transfer.module';
 import { AirtimeModule } from './airtime/airtime.module';
 import { CableModule } from './cable/cable.module';
+import { ElectricityModule } from './electricity/electricity.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { CableModule } from './cable/cable.module';
     PeerTransferModule,
     AirtimeModule,
     CableModule,
+    ElectricityModule,
   ],
   controllers: [AppController],
   providers: [
