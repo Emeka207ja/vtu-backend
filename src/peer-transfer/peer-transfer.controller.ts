@@ -3,6 +3,7 @@ import { PeerTransferService } from './peer-transfer.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
 import { reqUser } from 'src/type/Req';
 import { PeerTransferDto } from './dto/transfer.dto';
+import { userDto } from './dto/confirmUser.dto';
 
 @Controller('api/v1/peer')
 export class PeerTransferController {
@@ -35,5 +36,12 @@ export class PeerTransferController {
     @Get("/debit")
     async sentFunds(@Req() req: Request & reqUser) {
         return await this.peerService.sentFunds(req.user.id)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post("/confirm_user")
+    async confirmUser(@Body() value:userDto) {
+        
+        return await this.peerService.confirmUser(value)
     }
 }

@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Peer } from './entity/peer.entity';
 import { ProfileService } from 'src/profile/profile.service';
 import { PeerTransferDto } from './dto/transfer.dto';
+import { userDto } from './dto/confirmUser.dto';
 
 @Injectable()
 export class PeerTransferService {
@@ -66,5 +67,11 @@ export class PeerTransferService {
             .andWhere("peer.type = :type",{type:"debit"})
             .getMany()
         return history
+    }
+
+    async confirmUser(details:userDto){
+        const {username} = details
+      const user =  await this.profileService.findUserByName(username)
+      return user;
     }
 }
