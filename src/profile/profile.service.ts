@@ -176,4 +176,12 @@ export class ProfileService {
         await this.profileRepository.save(user)
         return user.id;
     }
+
+    async getUserTransfer(id: string) {
+        const user = await this.profileRepository.findOne({
+            where: { id: id },
+            relations:{p2p:true}
+        })
+        return user.p2p
+    }
 }

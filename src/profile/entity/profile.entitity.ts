@@ -99,7 +99,7 @@ export class Profile extends BaseTable {
     @OneToMany(() => Fund, (fund) => fund.profile)
     fund: Fund[]
 
-    @OneToMany(() => Peer, (peer) => peer.profile)
+    @OneToMany(() => Peer, (peer) => peer.sender)
     p2p: Peer[]
 
     @OneToMany(() => Airtime, (airtime) => airtime.profile)

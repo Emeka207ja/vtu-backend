@@ -5,5 +5,5 @@ export class PeerTransferDto{
     amount: number;
 
     @IsString()
-    username:string
+    recieverName:string
 }

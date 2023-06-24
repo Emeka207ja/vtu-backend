@@ -16,8 +16,15 @@ export class Peer extends BaseTable{
 
     @Column()
     @IsString()
-    username: string;
+    recieverName: string;
+  
+    @Column()
+    @IsString()
+    type: string;
 
     @ManyToOne(()=>Profile,(profile)=>profile.p2p)
-    profile:Profile
+    sender: Profile
+  
+    @ManyToOne(()=>Profile,(profile)=>profile.p2p)
+    receiver:Profile
 }
