@@ -61,7 +61,13 @@ export class AuthService {
     async _verifyUser(username: string, password: string) { 
        
            const user: Auth = await this.authRepository.findOneBy({ username });
+           if(!user){
+                throw new NotFoundException("invalid username or password")
+           }
            const passwordMatch: boolean = await user.verifyPassword(password,user.password);
+           if(!passwordMatch){
+                throw new BadRequestException("invalid password or username")
+           }
            if (user && passwordMatch) return user;
    
     }
