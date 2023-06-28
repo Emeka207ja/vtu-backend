@@ -52,7 +52,8 @@ export class PeerTransferService {
         const user = await this.profileService._find(id)
         const qBuilder = this.peerRepository.createQueryBuilder("peer")
         const history = qBuilder
-            .leftJoinAndSelect("peer.receiver","receiver")
+            .leftJoinAndSelect("peer.receiver", "receiver")
+            .leftJoinAndSelect("peer.sender","sender")
             .where("receiver.id = :id", { id })
             .andWhere("peer.type = :type",{type:"credit"})
             .getMany()
@@ -62,7 +63,8 @@ export class PeerTransferService {
         const user = await this.profileService._find(id)
         const qBuilder = this.peerRepository.createQueryBuilder("peer")
         const history = qBuilder
-            .leftJoinAndSelect("peer.sender","sender")
+            .leftJoinAndSelect("peer.sender", "sender")
+            .leftJoinAndSelect("peer.receiver","receiver")
             .where("sender.id = :id", { id })
             .andWhere("peer.type = :type",{type:"debit"})
             .getMany()
