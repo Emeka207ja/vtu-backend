@@ -184,4 +184,29 @@ export class ProfileService {
         })
         return user.p2p
     }
+
+
+    // Search a user by username
+
+    async searchUserByUsername(username: string) {
+        const qBuilder = await this.profileRepository.createQueryBuilder("user")
+        const user = qBuilder
+            .where("user.username = :username", { username })
+            .getOne()
+        // if (!user) {
+        //     throw new NotFoundException("user does not exist")
+        // }
+        return user
+
+    }
+
+    async manualFundingUpdate(username: string, amount: number) {
+        const user = await this.searchUserByUsername(username)
+        if (!user) {
+            throw new NotFoundException("user does not exist")
+        }
+        user.balance += amount;
+        await this.profileRepository.save(user)
+        return user.id
+    }
 }

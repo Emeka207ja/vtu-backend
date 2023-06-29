@@ -119,5 +119,31 @@ export class AuthService {
         }
         return user.id
     }
+
+    async getAllUsers() {
+        const qBuilder = await this.authRepository.createQueryBuilder("user");
+        const users = qBuilder
+            .getMany()
+        return users;
+    }
+    async getUserCount() {
+        const qBuilder = await this.authRepository.createQueryBuilder("user");
+        const count = qBuilder
+            .getCount()
+        return count;
+    }
+
+    async getDailySignup() {
+
+        const today = new Date()
+        const twentyFourHoursAgo = new Date(today.getTime() - 24 * 60 * 60 * 1000)
+        
+        const qBuilder= await this.authRepository.createQueryBuilder("user");
+
+        const daily = qBuilder
+            .where("user.created_at >= :twentyFourHoursAgo", { twentyFourHoursAgo })
+            .getMany()
+        return daily;
+    }
     
 }

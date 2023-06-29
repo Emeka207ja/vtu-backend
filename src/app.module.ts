@@ -13,6 +13,7 @@ import { PeerTransferModule } from './peer-transfer/peer-transfer.module';
 import { AirtimeModule } from './airtime/airtime.module';
 import { CableModule } from './cable/cable.module';
 import { ElectricityModule } from './electricity/electricity.module';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ElectricityModule } from './electricity/electricity.module';
     AirtimeModule,
     CableModule,
     ElectricityModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [

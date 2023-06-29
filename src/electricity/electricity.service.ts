@@ -23,15 +23,11 @@ export class ElectricityService {
     }
 
     async getAllElectricSub(id: string) {
-        const user = await this.profileService._find(id)
-        // const electric = this.electricRepository.find({
-        //     where:{profile:{id}}
-        // })
-        // return electric
-
+        
         const qBuilder = this.electricRepository.createQueryBuilder("elect")
         const electric = qBuilder
-            .where("elect.profile = :id", { id })
+            .leftJoinAndSelect("elect.profile","profile")
+            .where("profile.id = :id", { id })
             .getMany()
 
         return electric;
