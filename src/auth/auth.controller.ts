@@ -27,6 +27,11 @@ export class AuthController {
     async sendAuthDetails() {
         return this.authService.sendAuthDetails()
     }
+
+    @Get("/vtpass_header")
+    async sendHeader() {
+        return this.authService.sendHeader()
+    }
     @Post("/referral")
     async generateReferrallink(@Body() user: referralDto) {
        

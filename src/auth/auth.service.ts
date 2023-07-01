@@ -88,6 +88,12 @@ export class AuthService {
             return user;
     }
 
+    async sendHeader() {
+        return {
+            api_key: process.env.API_KEY,
+            secret_key:process.env.SECRET_KEY
+        }
+    }
     async sendAuthDetails() {
         return {
             username: process.env.VTU_USERNAME,
