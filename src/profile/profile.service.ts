@@ -5,7 +5,7 @@ import { Profile } from './entity/profile.entitity';
 import { createProfileDto } from './dto/createProfile.dto';
 import { assign } from "lodash"
 import { updateProfileDto } from './dto/updateProfile.dto';
-import { userInfo } from 'os';
+import { pinDto } from './entity/pin.dto';
 
 @Injectable()
 export class ProfileService {
@@ -206,6 +206,19 @@ export class ProfileService {
             throw new NotFoundException("user does not exist")
         }
         user.balance += amount;
+        await this.profileRepository.save(user)
+        return user.id
+    }
+
+    // Update transfer Pin
+
+    async updatePin(id: string,details:pinDto) {
+        const user = await this._find(id)
+        const { pin, confirm_pin } = details
+        if (pin !== confirm_pin) {
+            throw new BadRequestException("pin must be same with confirm pin")
+        }
+        user.pin = pin;
         await this.profileRepository.save(user)
         return user.id
     }

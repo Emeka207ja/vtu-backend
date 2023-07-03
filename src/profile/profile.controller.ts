@@ -4,6 +4,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
 import { ProfileService } from './profile.service';
 import { updateProfileDto } from './dto/updateProfile.dto'; 
 import { reqUser } from 'src/type/Req';
+import { pinDto } from './entity/pin.dto';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -34,5 +35,10 @@ export class ProfileController {
     @Patch()
     async updateProfile(@Body() profileDto: updateProfileDto, @Req() req: Request & reqUser) {
         return await this.profileService.updateProfile(req.user.id, profileDto);
+    }
+    @UseGuards(JwtAuthGuard)
+    @Patch("/update_pin")
+    async updatePin(@Body() details: pinDto, @Req() req: Request & reqUser) {
+        return await this.profileService.updatePin(req.user.id, details);
     }
 }
