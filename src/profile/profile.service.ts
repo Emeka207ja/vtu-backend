@@ -218,6 +218,9 @@ export class ProfileService {
         if (pin !== confirm_pin) {
             throw new BadRequestException("pin must be same with confirm pin")
         }
+        if (pin === 1111) {
+            throw new BadRequestException("can't use default pin, choose another pin")
+        }
         user.pin = pin;
         await this.profileRepository.save(user)
         return user.id
