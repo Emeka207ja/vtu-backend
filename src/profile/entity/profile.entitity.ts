@@ -64,6 +64,10 @@ export class Profile extends BaseTable {
     @IsNumber()
     pin: number;
 
+    @Column({type:"boolean",default:false})
+    @IsBoolean()
+    defaultPinChanged: boolean;
+
     @Column({ type: "text", default: null })
     @IsString()
     image: string;

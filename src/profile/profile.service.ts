@@ -6,6 +6,7 @@ import { createProfileDto } from './dto/createProfile.dto';
 import { assign } from "lodash"
 import { updateProfileDto } from './dto/updateProfile.dto';
 import { pinDto } from './entity/pin.dto';
+import { changePinDto } from './dto/changePin.dto';
 
 @Injectable()
 export class ProfileService {
@@ -222,7 +223,19 @@ export class ProfileService {
             throw new BadRequestException("can't use default pin, choose another pin")
         }
         user.pin = pin;
+        user.defaultPinChanged = true
         await this.profileRepository.save(user)
         return user.id
+    }
+
+    async changePin(id: string, details: changePinDto) {
+        const user = await this._find(id);
+        const { newPin, oldPin } = details;
+        if (user.pin !== oldPin) {
+            throw new BadRequestException("Invalid Pin format")
+        }
+        user.pin = newPin;
+        await this.profileRepository.save(user);
+        return user.id;
     }
 }

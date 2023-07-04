@@ -1,6 +1,6 @@
 import { Controller, Get, Patch, Body, Req, UseGuards } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
-
+import { changePinDto } from './dto/changePin.dto';
 import { ProfileService } from './profile.service';
 import { updateProfileDto } from './dto/updateProfile.dto'; 
 import { reqUser } from 'src/type/Req';
@@ -40,5 +40,11 @@ export class ProfileController {
     @Patch("/update_pin")
     async updatePin(@Body() details: pinDto, @Req() req: Request & reqUser) {
         return await this.profileService.updatePin(req.user.id, details);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch("/change_pin")
+    async changePin(@Body() details: changePinDto, @Req() req: Request & reqUser) {
+        return await this.profileService.changePin(req.user.id, details);
     }
 }
