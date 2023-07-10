@@ -14,6 +14,10 @@ export class signupDto{
     username: string;
 
     @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsString()
     @IsOptional()
     referral?: string;
 

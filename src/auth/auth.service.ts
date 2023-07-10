@@ -21,7 +21,7 @@ export class AuthService {
 
     async signup(userDto: signupDto): Promise<string> { 
        
-        const { email, username, password } = userDto;
+        const { email, username, password,name } = userDto;
         
         await this._verifyEmail(email);
 
@@ -31,14 +31,14 @@ export class AuthService {
             const referralId = await this.decodeToken(userDto.referral)
             await this.profileService.updateUserReferral(referralId)
             const user: Auth = this.authRepository.create({ email, username, password });
-            const profile = await this.profileService.createProfile({ email, username, referralId });
+            const profile = await this.profileService.createProfile({ email, username, referralId,name });
             user.profile = profile;
             await this.authRepository.save(user);
             return user.id;
         }
 
          const user: Auth = this.authRepository.create({ email, username, password });
-        const profile = await this.profileService.createProfile({ email, username });
+        const profile = await this.profileService.createProfile({ email, username,name });
          
            user.profile = profile;
 

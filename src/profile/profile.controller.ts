@@ -5,6 +5,7 @@ import { ProfileService } from './profile.service';
 import { updateProfileDto } from './dto/updateProfile.dto'; 
 import { reqUser } from 'src/type/Req';
 import { pinDto } from './entity/pin.dto';
+import { updatenameDto } from './dto/updatename.dto';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -46,5 +47,11 @@ export class ProfileController {
     @Patch("/change_pin")
     async changePin(@Body() details: changePinDto, @Req() req: Request & reqUser) {
         return await this.profileService.changePin(req.user.id, details);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch("/update_name")
+    async updateName(@Body() details: updatenameDto, @Req() req: Request & reqUser) {
+        return await this.profileService.updateName(req.user.id, details);
     }
 }

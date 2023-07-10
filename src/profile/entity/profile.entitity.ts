@@ -33,6 +33,10 @@ export class Profile extends BaseTable {
     @IsString()
     lastname: string;
 
+    @Column({type:"text",default:null})
+    @IsString()
+    name: string;
+
     @Column({ default: 0})
     @IsNumber()
     balance: number;

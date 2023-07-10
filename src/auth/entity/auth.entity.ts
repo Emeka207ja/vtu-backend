@@ -25,6 +25,10 @@ export class Auth extends BaseTable
     @IsString()
     password: string;
 
+    @Column({type:"text",default:null})
+    @IsString()
+    name: string;
+
     @Column({
         type:"varchar",unique:true
     })

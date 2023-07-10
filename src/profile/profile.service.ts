@@ -7,6 +7,8 @@ import { assign } from "lodash"
 import { updateProfileDto } from './dto/updateProfile.dto';
 import { pinDto } from './entity/pin.dto';
 import { changePinDto } from './dto/changePin.dto';
+import { updatenameDto } from './dto/updatename.dto';
+import { userDto } from 'src/peer-transfer/dto/confirmUser.dto';
 
 @Injectable()
 export class ProfileService {
@@ -40,6 +42,15 @@ export class ProfileService {
         delete profile.auth.password;
         return profile;
     }
+
+    async updateName(id: string, details: updatenameDto) { 
+        const user = await this._find(id)
+        const { name } = details;
+        user.name = name;
+        await this.profileRepository.save(user);
+        return user.id
+    }
+    
     async updateProfile(authId: string,updateDto:updateProfileDto): Promise<Profile> { 
         const profile = await this._find(authId);
         delete profile.email;

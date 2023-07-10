@@ -6,6 +6,10 @@ export class createProfileDto{
     username: string;
 
     @IsString()
+    @IsNotEmpty()
+    name: string;
+
+    @IsString()
     @IsOptional()
     referralId?: string;
 
