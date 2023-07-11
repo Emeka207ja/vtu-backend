@@ -9,6 +9,8 @@ import { pinDto } from './entity/pin.dto';
 import { changePinDto } from './dto/changePin.dto';
 import { updatenameDto } from './dto/updatename.dto';
 import { userDto } from 'src/peer-transfer/dto/confirmUser.dto';
+import { iKora } from './interface/ikorawebhook';
+
 
 @Injectable()
 export class ProfileService {
@@ -248,5 +250,24 @@ export class ProfileService {
         user.pin = newPin;
         await this.profileRepository.save(user);
         return user.id;
+    }
+
+    
+    async koraPayWebhook(data:iKora) {
+        const name = data.data.virtual_bank_account_details.virtual_bank_account.account_name
+       
+        if (!name) {
+            throw new BadRequestException("no virtual_account name")
+        }
+        
+        const user = await this.profileRepository.findOneBy({ name })
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+
+        const amount = data.data.amount;
+        user.balance+= amount
+        await this.profileRepository.save(user)
+        return user.id
     }
 }

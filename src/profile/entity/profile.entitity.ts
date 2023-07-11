@@ -33,7 +33,7 @@ export class Profile extends BaseTable {
     @IsString()
     lastname: string;
 
-    @Column({type:"text",default:null})
+    @Column({type:"text",default:null, unique:true})
     @IsString()
     name: string;
 

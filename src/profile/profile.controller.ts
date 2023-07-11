@@ -1,4 +1,4 @@
-import { Controller, Get, Patch, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Patch, Body, Req, UseGuards,HttpCode,Post } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
 import { changePinDto } from './dto/changePin.dto';
 import { ProfileService } from './profile.service';
@@ -6,6 +6,7 @@ import { updateProfileDto } from './dto/updateProfile.dto';
 import { reqUser } from 'src/type/Req';
 import { pinDto } from './entity/pin.dto';
 import { updatenameDto } from './dto/updatename.dto';
+import { iKora } from './interface/ikorawebhook';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -53,5 +54,11 @@ export class ProfileController {
     @Patch("/update_name")
     async updateName(@Body() details: updatenameDto, @Req() req: Request & reqUser) {
         return await this.profileService.updateName(req.user.id, details);
+    }
+
+    @Post("/webhook")
+    @HttpCode(200)
+    async koraPayWebHook(@Body() data: iKora) {
+        return await this.profileService.koraPayWebhook(data)
     }
 }
