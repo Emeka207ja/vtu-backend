@@ -7,7 +7,9 @@ import { Peer } from "src/peer-transfer/entity/peer.entity";
 import { Airtime } from "src/airtime/entity/airtime.entity";
 import { Cable } from "../../cable/entity/Cable.entity";
 import { Electric } from "src/electricity/entity/electric.entity";
-
+import { prepaidEntity } from "src/electricity/entity/prepaidElectric";
+import { smileEntity } from "src/smile/entity/smileEntity";
+import { spectranetEntity } from "src/smile/entity/spectranetEntity";
 
 export enum Gender{
     Male = "male",
@@ -122,5 +124,14 @@ export class Profile extends BaseTable {
 
     @OneToMany(() => Electric, (electric) => electric.profile)
     electric: Electric[]
+
+    @OneToMany(() => prepaidEntity, (PrepaidEntity) => PrepaidEntity.profile)
+    prepaid: prepaidEntity[]
+
+    @OneToMany(() => smileEntity, (smile) => smile.profile)
+    smile: smileEntity[]
+
+    @OneToMany(() => spectranetEntity, (spectranet) => spectranet.profile)
+    spectranet: spectranetEntity[]
     
 }

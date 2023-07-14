@@ -14,6 +14,7 @@ import { AirtimeModule } from './airtime/airtime.module';
 import { CableModule } from './cable/cable.module';
 import { ElectricityModule } from './electricity/electricity.module';
 import { AdminModule } from './admin/admin.module';
+import { SmileModule } from './smile/smile.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { AdminModule } from './admin/admin.module';
     CableModule,
     ElectricityModule,
     AdminModule,
+    SmileModule,
   ],
   controllers: [AppController],
   providers: [
