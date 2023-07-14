@@ -30,6 +30,14 @@ export class prepaidEntity extends BaseTable{
     @IsString()
     exchangeReference: string;
 
+    @Column({default:""})
+    @IsString()
+    mainToken: string;
+
+    @Column({default:""})
+    @IsString()
+    purchased_code: string;
+
     @Column()
     @IsNumber()
     amount: number;

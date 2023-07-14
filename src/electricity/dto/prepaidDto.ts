@@ -20,6 +20,12 @@ export class prepaidDto{
     
     @IsString()
     utilityName: string;
+    
+    @IsString()
+    mainToken: string
+
+    @IsString()
+    purchased_code:string
 
     
     @IsString()
