@@ -8,11 +8,6 @@ export class prepaidDto{
     
     @IsString()
     date: string;
-
-    
-    @IsString()
-    timezone: string;
-
     
     @IsString()
     utilityName: string;
