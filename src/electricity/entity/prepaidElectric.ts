@@ -6,9 +6,6 @@ import { Profile } from "src/profile/entity/profile.entitity";
 
 @Entity()
 export class prepaidEntity extends BaseTable{
-    @Column()
-    @IsString()
-    response_description: string;
 
     @Column()
     @IsString()
@@ -20,15 +17,7 @@ export class prepaidEntity extends BaseTable{
 
     @Column()
     @IsString()
-    timezone: string;
-
-    @Column()
-    @IsString()
     utilityName: string;
-
-    @Column()
-    @IsString()
-    exchangeReference: string;
 
     @Column({default:""})
     @IsString()
