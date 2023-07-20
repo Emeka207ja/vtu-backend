@@ -104,7 +104,8 @@ export class AuthService {
     async sendBvnAcctDetails() {
         return {
             bvn: process.env.BVN,
-            acctnum: process.env.ACCT
+            acctnum: process.env.ACCT,
+            secret_key : process.env.SQUADKEY
         }
     }
 
