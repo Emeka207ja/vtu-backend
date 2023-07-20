@@ -32,6 +32,11 @@ export class AuthController {
     async sendHeader() {
         return this.authService.sendHeader()
     }
+
+    @Get("/squad_acct")
+    async sendBvnAcctDetails() {
+        return this.authService.sendBvnAcctDetails()
+    }
     @Post("/referral")
     async generateReferrallink(@Body() user: referralDto) {
        

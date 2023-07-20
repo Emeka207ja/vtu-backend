@@ -51,11 +51,8 @@ export class Profile extends BaseTable {
     @IsString()
     username: string;
 
-    @Column({
-        type: "text", default: null
-    })
-    @IsPhoneNumber()
-    @Index()
+    @Column({type:"varchar",default:"08137663855"})
+    @IsString()
     phone: string;
 
     @Column({type:"enum",enum:Gender,default:null})

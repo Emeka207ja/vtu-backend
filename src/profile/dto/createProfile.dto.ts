@@ -15,5 +15,9 @@ export class createProfileDto{
 
     @IsEmail()
     @IsNotEmpty()
-    email:string
+    email: string
+    
+    @IsString()
+    @IsNotEmpty()
+    phone: string;
 }

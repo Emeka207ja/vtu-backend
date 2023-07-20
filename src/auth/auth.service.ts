@@ -21,7 +21,7 @@ export class AuthService {
 
     async signup(userDto: signupDto): Promise<string> { 
        
-        const { email, username, password,name } = userDto;
+        const { email, username, password,name,phone } = userDto;
         
         await this._verifyEmail(email);
 
@@ -30,15 +30,15 @@ export class AuthService {
         if (userDto.referral) {
             const referralId = await this.decodeToken(userDto.referral)
             await this.profileService.updateUserReferral(referralId)
-            const user: Auth = this.authRepository.create({ email, username, password });
-            const profile = await this.profileService.createProfile({ email, username, referralId,name });
+            const user: Auth = this.authRepository.create({ email, username, password,phone });
+            const profile = await this.profileService.createProfile({ email, username, referralId,name,phone});
             user.profile = profile;
             await this.authRepository.save(user);
             return user.id;
         }
 
-         const user: Auth = this.authRepository.create({ email, username, password });
-        const profile = await this.profileService.createProfile({ email, username,name });
+         const user: Auth = this.authRepository.create({ email, username, password,phone });
+        const profile = await this.profileService.createProfile({ email, username,name,phone});
          
            user.profile = profile;
 
@@ -98,6 +98,13 @@ export class AuthService {
         return {
             username: process.env.VTU_USERNAME,
             password:process.env.VTU_PASSWORD
+        }
+    }
+
+    async sendBvnAcctDetails() {
+        return {
+            bvn: process.env.BVN,
+            acctnum: process.env.ACCT
         }
     }
 

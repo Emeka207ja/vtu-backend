@@ -19,13 +19,14 @@ export class ProfileService {
     ) { }
     
     async createProfile(profileDto: createProfileDto): Promise<Profile> {
-
+        const {phone} = profileDto
        
         if (profileDto.referralId) {
             const profile = this.profileRepository.create(profileDto)
             const referal = await this._find(profileDto.referralId)
             profile.ReferredBy = referal.username;
             profile.isReferred = true;
+            profile.phone = phone
             await this.profileRepository.save(profile)
             return profile;
         }
