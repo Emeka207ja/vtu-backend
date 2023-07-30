@@ -9,6 +9,7 @@ import { Electric } from "src/electricity/entity/electric.entity";
 import { prepaidEntity } from "src/electricity/entity/prepaidElectric";
 import { smileEntity } from "src/smile/entity/smileEntity";
 import { spectranetEntity } from "src/smile/entity/spectranetEntity";
+import { dataEntity } from "src/data/Entity/dataEntity";
 
 export const typeormConfig: TypeOrmModuleAsyncOptions = {
    useFactory: async() => (
@@ -20,7 +21,7 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
 
     synchronize: true,
 
-    entities: [Auth,Profile,Fund,Peer,Airtime,Cable,Electric,prepaidEntity,smileEntity,spectranetEntity],
+    entities: [Auth,Profile,Fund,Peer,Airtime,Cable,Electric,prepaidEntity,smileEntity,spectranetEntity,dataEntity],
     // entities: [AuthEntity,taskEntity],
 
 }

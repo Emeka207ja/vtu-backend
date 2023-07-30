@@ -15,6 +15,7 @@ import { CableModule } from './cable/cable.module';
 import { ElectricityModule } from './electricity/electricity.module';
 import { AdminModule } from './admin/admin.module';
 import { SmileModule } from './smile/smile.module';
+import { DataModule } from './data/data.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { SmileModule } from './smile/smile.module';
     ElectricityModule,
     AdminModule,
     SmileModule,
+    DataModule,
   ],
   controllers: [AppController],
   providers: [

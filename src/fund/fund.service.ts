@@ -5,6 +5,7 @@ import { ProfileService } from 'src/profile/profile.service';
 import { Fund } from './entity/create-fund';
 import { fundDto } from 'src/profile/dto/fund.dto';
 import { AuthService } from 'src/auth/auth.service';
+import { isquad } from './dto/iSquad';
 
 @Injectable()
 export class FundService {
