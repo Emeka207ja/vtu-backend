@@ -37,6 +37,12 @@ export class AuthController {
     async sendBvnAcctDetails() {
         return this.authService.sendBvnAcctDetails()
     }
+
+    @Get("/geotop")
+    async sendBeareToken() {
+        return this.authService.sendBearerToken()
+    }
+
     @Post("/referral")
     async generateReferrallink(@Body() user: referralDto) {
        

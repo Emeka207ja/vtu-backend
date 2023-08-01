@@ -100,6 +100,11 @@ export class AuthService {
             password:process.env.VTU_PASSWORD
         }
     }
+    async sendBearerToken() {
+        return {
+            token: process.env.GEOTOPUP_TOKEN
+        }
+    }
 
     async sendBvnAcctDetails() {
         return {
