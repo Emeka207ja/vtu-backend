@@ -32,8 +32,13 @@ export class DataController {
     @UseGuards(JwtAuthGuard)
     @Get(":id")
     async getData( @Param("id") id:string) {
-        console.log(id)
         return await this.dataService.getDataByNetwork(id)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/selected/:id")
+    async getDataById( @Param("id") id:string) {
+        return await this.dataService.getDataById(id)
     }
 
 }

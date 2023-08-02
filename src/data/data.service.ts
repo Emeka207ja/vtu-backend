@@ -60,4 +60,12 @@ export class DataService {
         const data = await this.dataRepository.find({})
         return data;
     }
+
+    async getDataById(id: string) {
+        const data = await this.dataRepository.findOneBy({ id })
+        if (!data) {
+            throw new NotFoundException("resource does not exist")
+        }
+        return data
+    }
 }
