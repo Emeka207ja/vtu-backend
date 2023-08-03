@@ -57,7 +57,7 @@ export class DataService {
     }
 
     async getAllData() {
-        const data = await this.dataRepository.find({})
+        const data = await this.dataRepository.find({order:{id:"ASC"}})
         return data;
     }
 
