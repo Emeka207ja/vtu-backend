@@ -6,10 +6,20 @@ import { dataDto } from './Dto/dataDto';
 import { updatedataDto } from './Dto/updatedataDto';
 import { networkData, inetwork } from './iData';
 import { dataParam } from './Dto/getdataDto';
+import { EmailService } from './email.service';
+import { dataPurchaseDto } from './Dto/purchasedata.dto';
+import { ProfileService } from 'src/profile/profile.service';
+import { purchaseEmail } from './interface/ipurchaseemail';
+
+
+
+
 @Injectable()
 export class DataService {
     constructor(
-        @InjectRepository(dataEntity) private readonly dataRepository:Repository<dataEntity>
+        @InjectRepository(dataEntity) private readonly dataRepository: Repository<dataEntity>,
+        private readonly emailService:EmailService,
+        private readonly profileService:ProfileService
     ) { }
     
     async addDataService(details:dataDto) {
@@ -67,5 +77,19 @@ export class DataService {
             throw new NotFoundException("resource does not exist")
         }
         return data
+    }
+
+    async purchaseData(id: string, details: dataPurchaseDto) {
+        const { phone, price } = details
+        const user = await this.profileService._find(id)
+        const { email, name } = user
+        const vals: purchaseEmail = {
+            phone: phone,
+            name: name,
+            price:price
+        }
+        await this.profileService.debitAccount(id, price)
+        await this.emailService.sendMail( email,"data purchase", vals)
+        return user.id;
     }
 }

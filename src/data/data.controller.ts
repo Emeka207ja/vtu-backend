@@ -1,20 +1,29 @@
-import { Controller,Post,Patch,Get,Param,UseGuards,Body } from '@nestjs/common';
+import { Controller,Post,Patch,Get,Param,UseGuards,Body,Req } from '@nestjs/common';
 import { DataService } from './data.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
 import { dataDto } from './Dto/dataDto';
 import { updatedataDto } from './Dto/updatedataDto';
 import { dataParam } from './Dto/getdataDto';
+import { dataPurchaseDto } from './Dto/purchasedata.dto';
+import { reqUser } from 'src/type/Req';
 
 @Controller('api/v1/data')
 export class DataController {
     constructor(
-        private readonly dataService:DataService
+        private readonly dataService: DataService,
+        
     ) { }
     
     @UseGuards(JwtAuthGuard)
     @Post()
     async addData(@Body()details: dataDto) {
         return await this.dataService.addDataService(details)
+    }
+    
+    @UseGuards(JwtAuthGuard)
+    @Post("/buydata")
+    async purchaseData(@Body()details: dataPurchaseDto,@Req() req:Request&reqUser) {
+        return await this.dataService.purchaseData(req.user.id,details)
     }
 
     @UseGuards(JwtAuthGuard)
@@ -26,6 +35,7 @@ export class DataController {
     @UseGuards(JwtAuthGuard)
     @Get()
     async getAllData() {
+        // this.emailService.sendMail("allpointgroups@gmail.com", " integration");
         return await this.dataService.getAllData()
     }
 
@@ -40,5 +50,7 @@ export class DataController {
     async getDataById( @Param("id") id:string) {
         return await this.dataService.getDataById(id)
     }
+
+
 
 }
