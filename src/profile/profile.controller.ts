@@ -6,7 +6,7 @@ import { updateProfileDto } from './dto/updateProfile.dto';
 import { reqUser } from 'src/type/Req';
 import { pinDto } from './entity/pin.dto';
 import { updatenameDto } from './dto/updatename.dto';
-import { iKora } from './interface/ikorawebhook';
+import { iKora,ikoraDynamic } from './interface/ikorawebhook';
 import { koraIdDto } from './dto/koraid.dto';
 import { koraHookResponse } from './dto/korahookresponse';
 import { koraid } from './entity/koraid.entity';
@@ -67,7 +67,7 @@ export class ProfileController {
 
     @Post("/dynamicaccount/webhook")
     @HttpCode(200)
-    async korahook(@Body() data:koraHookResponse) {
+    async korahook(@Body() data:ikoraDynamic) {
         return await this.profileService.koraDynamicAccountWebhook(data)
     }
 

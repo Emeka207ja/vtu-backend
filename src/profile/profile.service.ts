@@ -9,10 +9,11 @@ import { pinDto } from './entity/pin.dto';
 import { changePinDto } from './dto/changePin.dto';
 import { updatenameDto } from './dto/updatename.dto';
 import { userDto } from 'src/peer-transfer/dto/confirmUser.dto';
-import { iKora } from './interface/ikorawebhook';
+import { iKora,ikoraDynamic } from './interface/ikorawebhook';
 import { koraid } from './entity/koraid.entity';
 import { koraIdDto } from './dto/koraid.dto';
 import { koraHookResponse } from './dto/korahookresponse';
+ 
 
 
 @Injectable()
@@ -279,20 +280,19 @@ export class ProfileService {
     async storeKoraId(id: string, details: koraIdDto) {
        
         const user = await this._find(id);
-        console.log(user)
         const kora = this.korarepository.create(details);
         kora.profile = user;
         await this.korarepository.save(kora)
         return kora.id
     }
 
-    async koraDynamicAccountWebhook(details: koraHookResponse) {
-        const { reference } = details;
+    async koraDynamicAccountWebhook(details: ikoraDynamic) {
+        const { reference } = details.data;
         const kora = await this.korarepository.findOneBy({ reference })
         if (!kora) {
             throw new NotFoundException("transaction reference not found on database")
         }
-        if (details.status !== "success") {
+        if (details.data.status !== "success") {
             throw new BadRequestException("failed transaction")
         }
         const refex = kora.reference;
@@ -302,9 +302,9 @@ export class ProfileService {
             .where("kora.reference = :refex", {  refex })
             .getOne()
         const profile = (await user).profile
-        profile.balance += details.amount;
+        profile.balance += details.data.amount;
         await this.profileRepository.save(profile)
-        return user
+        return kora.id
     }
 
     async getAllKoraId(id: string) {

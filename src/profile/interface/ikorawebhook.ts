@@ -56,3 +56,22 @@ interface iAccount{
 interface ivirtualAccount extends iAccount{
     account_reference:string
 }
+
+
+
+
+export interface ikoraDynamic{
+    event: string;
+    data:iDetail
+}
+
+interface iDetail{
+    payment_reference: string;
+    reference: string;
+    currency: string;
+    amount: number,
+    fee: number;
+    status: string;
+    payment_method:string
+    
+}
