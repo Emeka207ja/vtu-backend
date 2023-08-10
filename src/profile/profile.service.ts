@@ -287,8 +287,9 @@ export class ProfileService {
     }
 
     async koraDynamicAccountWebhook(details: ikoraDynamic) {
-        const { reference } = details.data;
-        const kora = await this.korarepository.findOneBy({ reference })
+        const { payment_reference } = details.data;
+        const reference = payment_reference
+        const kora = await this.korarepository.findOneBy({reference})
         if (!kora) {
             throw new NotFoundException("transaction reference not found on database")
         }
