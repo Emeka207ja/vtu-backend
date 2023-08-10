@@ -6,12 +6,14 @@ import { ProfileService } from 'src/profile/profile.service';
 import { subElectricDto } from './dto/subelectric.dto';
 import { prepaidEntity } from './entity/prepaidElectric';
 import { prepaidDto } from './dto/prepaidDto';
+import { EmailService } from 'src/data/email.service';
 
 @Injectable()
 export class ElectricityService {
     constructor(
         @InjectRepository(Electric) private readonly electricRepository: Repository<Electric>,
-        @InjectRepository(prepaidEntity) private readonly prepaidRepository:Repository<prepaidEntity>,
+        @InjectRepository(prepaidEntity) private readonly prepaidRepository: Repository<prepaidEntity>,
+        private readonly emailService:EmailService,
         private readonly profileService :ProfileService
     ) { }
     
@@ -22,6 +24,10 @@ export class ElectricityService {
         const electric = this.electricRepository.create(details)
         electric.profile = user;
         await this.electricRepository.save(electric);
+
+
+        // const { email,name } = user
+        // await this.emailService.sendElectricityPurchaseMail(email,"prepaid subscription",name,details)
         return electric.id
     }
 
@@ -43,6 +49,9 @@ export class ElectricityService {
         const Prepaid = this.prepaidRepository.create(details)
         Prepaid.profile = user;
         await this.prepaidRepository.save(Prepaid)
+
+        const { email,name } = user
+        await this.emailService.sendElectricityPurchaseMail(email,"prepaid subscription",name,details)
         return Prepaid.id;
     }
 

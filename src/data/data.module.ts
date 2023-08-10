@@ -12,6 +12,7 @@ import { ProfileModule } from 'src/profile/profile.module';
     ProfileModule,
   ],
   providers: [DataService,EmailService],
-  controllers: [DataController]
+  controllers: [DataController],
+  exports:[EmailService]
 })
 export class DataModule {}
