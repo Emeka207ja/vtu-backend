@@ -3,10 +3,11 @@ import { ProfileService } from './profile.service';
 import { ProfileController } from './profile.controller';
 import { Profile } from './entity/profile.entitity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { koraid } from './entity/koraid.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Profile])
+    TypeOrmModule.forFeature([Profile,koraid])
   ],
   providers: [ProfileService],
   controllers: [ProfileController],

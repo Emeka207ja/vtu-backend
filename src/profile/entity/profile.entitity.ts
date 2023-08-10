@@ -10,6 +10,7 @@ import { Electric } from "src/electricity/entity/electric.entity";
 import { prepaidEntity } from "src/electricity/entity/prepaidElectric";
 import { smileEntity } from "src/smile/entity/smileEntity";
 import { spectranetEntity } from "src/smile/entity/spectranetEntity";
+import { koraid } from "./koraid.entity";
 
 export enum Gender{
     Male = "male",
@@ -130,5 +131,9 @@ export class Profile extends BaseTable {
 
     @OneToMany(() => spectranetEntity, (spectranet) => spectranet.profile)
     spectranet: spectranetEntity[]
+
+
+    @OneToMany(() => koraid, (kora) => kora.profile)
+    koraid:koraid[]
     
 }

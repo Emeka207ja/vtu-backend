@@ -10,12 +10,16 @@ import { changePinDto } from './dto/changePin.dto';
 import { updatenameDto } from './dto/updatename.dto';
 import { userDto } from 'src/peer-transfer/dto/confirmUser.dto';
 import { iKora } from './interface/ikorawebhook';
+import { koraid } from './entity/koraid.entity';
+import { koraIdDto } from './dto/koraid.dto';
+import { koraHookResponse } from './dto/korahookresponse';
 
 
 @Injectable()
 export class ProfileService {
     constructor(
-        @InjectRepository(Profile) private readonly profileRepository:Repository<Profile>,
+        @InjectRepository(Profile) private readonly profileRepository: Repository<Profile>,
+        @InjectRepository(koraid) private readonly korarepository:Repository<koraid>
     ) { }
     
     async createProfile(profileDto: createProfileDto): Promise<Profile> {
@@ -270,5 +274,45 @@ export class ProfileService {
         user.balance+= amount
         await this.profileRepository.save(user)
         return user.id
+    }
+
+    async storeKoraId(id: string, details: koraIdDto) {
+       
+        const user = await this._find(id);
+        console.log(user)
+        const kora = this.korarepository.create(details);
+        kora.profile = user;
+        await this.korarepository.save(kora)
+        return kora.id
+    }
+
+    async koraDynamicAccountWebhook(details: koraHookResponse) {
+        const { reference } = details;
+        const kora = await this.korarepository.findOneBy({ reference })
+        if (!kora) {
+            throw new NotFoundException("transaction reference not found on database")
+        }
+        if (details.status !== "success") {
+            throw new BadRequestException("failed transaction")
+        }
+        const refex = kora.reference;
+        const qBuilder = this.korarepository.createQueryBuilder("kora")
+        const user = qBuilder
+            .leftJoinAndSelect("kora.profile", "profile")
+            .where("kora.reference = :refex", {  refex })
+            .getOne()
+        const profile = (await user).profile
+        profile.balance += details.amount;
+        await this.profileRepository.save(profile)
+        return user
+    }
+
+    async getAllKoraId(id: string) {
+        const qBuilder = this.korarepository.createQueryBuilder("kora");
+        const kora = qBuilder
+            .leftJoinAndSelect("kora.profile", "profile")
+            .where("profile.id = :id",{id:id})
+            .getMany()
+        return kora
     }
 }
