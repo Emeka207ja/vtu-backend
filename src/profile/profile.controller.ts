@@ -10,6 +10,7 @@ import { iKora,ikoraDynamic } from './interface/ikorawebhook';
 import { koraIdDto } from './dto/koraid.dto';
 import { koraHookResponse } from './dto/korahookresponse';
 import { koraid } from './entity/koraid.entity';
+import { monifyDto } from './dto/monifyDto';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -76,6 +77,20 @@ export class ProfileController {
     async storeKoraId(@Body() data: koraid, @Req() req: Request & reqUser) {
         
         return await this.profileService.storeKoraId(req.user.id,data)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post("/monify/saveaccount")
+    async storeMonifyAccount(@Body() data:monifyDto, @Req() req: Request & reqUser) {
+        
+        return await this.profileService.storeMonifyAccount(req.user.id,data)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/monify")
+    async getMonnifyAcct( @Req() req: Request & reqUser) {
+        
+        return await this.profileService.getMonnifyAcct(req.user.id)
     }
 
     @UseGuards(JwtAuthGuard)

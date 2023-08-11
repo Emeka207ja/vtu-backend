@@ -13,6 +13,8 @@ import { iKora,ikoraDynamic } from './interface/ikorawebhook';
 import { koraid } from './entity/koraid.entity';
 import { koraIdDto } from './dto/koraid.dto';
 import { koraHookResponse } from './dto/korahookresponse';
+import { monifyDto } from './dto/monifyDto';
+import { monifyAccountEntity } from './entity/monifyAcount.entity';
  
 
 
@@ -20,7 +22,8 @@ import { koraHookResponse } from './dto/korahookresponse';
 export class ProfileService {
     constructor(
         @InjectRepository(Profile) private readonly profileRepository: Repository<Profile>,
-        @InjectRepository(koraid) private readonly korarepository:Repository<koraid>
+        @InjectRepository(koraid) private readonly korarepository:Repository<koraid>,
+        @InjectRepository(monifyAccountEntity) private readonly monnifyRepository:Repository<monifyAccountEntity>
     ) { }
     
     async createProfile(profileDto: createProfileDto): Promise<Profile> {
@@ -316,4 +319,31 @@ export class ProfileService {
             .getMany()
         return kora
     }
+
+    async storeMonifyAccount(id: string, detail: monifyDto) {
+        const user = await this._find(id);
+        if (user.isMonified) {
+            return 10;
+        }
+        const monify = await this.monnifyRepository.create(detail)
+        monify.profile = user;
+        await this.monnifyRepository.save(monify)
+        user.isMonified = true;
+        await this.profileRepository.save(user);
+        return monify.id
+    }
+
+    async getMonnifyAcct(id: string) {
+        const user = await this._find(id);
+        const idx = user.id;
+
+        const qBuilder = this.monnifyRepository.createQueryBuilder("monify");
+        const acctDetails = qBuilder
+            .leftJoinAndSelect("monify.profile", "profile")
+            .where("profile.id = :idx", { idx })
+            .getOne()
+        console.log(acctDetails)
+        return acctDetails
+    }
+
 }

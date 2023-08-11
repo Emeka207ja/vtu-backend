@@ -11,6 +11,7 @@ import { prepaidEntity } from "src/electricity/entity/prepaidElectric";
 import { smileEntity } from "src/smile/entity/smileEntity";
 import { spectranetEntity } from "src/smile/entity/spectranetEntity";
 import { koraid } from "./koraid.entity";
+import { monifyAccountEntity } from "./monifyAcount.entity";
 
 export enum Gender{
     Male = "male",
@@ -86,6 +87,11 @@ export class Profile extends BaseTable {
     @IsBoolean()
     isFunded: boolean
 
+    @Column({type:"bool",default:"false"})
+    @IsOptional()
+    @IsBoolean()
+    isMonified: boolean
+
    
     
     @Column({type:"text",default:null})
@@ -135,5 +141,8 @@ export class Profile extends BaseTable {
 
     @OneToMany(() => koraid, (kora) => kora.profile)
     koraid:koraid[]
+    
+    @OneToMany(() => monifyAccountEntity, (monify) => monify.profile)
+    monify:monifyAccountEntity
     
 }
