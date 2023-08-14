@@ -358,12 +358,22 @@ export class ProfileService {
         if (detail.eventType !== "SUCCESSFUL_TRANSACTION") {
             throw new BadRequestException("invalid transaction")
         }
-        const {name} = detail.eventData.customer
-        const user = await this.getUserByFullname(name)
-        const { amountPaid } = detail.eventData;
-        user.balance += amountPaid;
-        await this.profileRepository.save(user)
-        return user.id;
+        const {reference} = detail.eventData.product
+
+        const qBuilder = this.monnifyRepository.createQueryBuilder("monify");
+        const user = qBuilder
+            .leftJoinAndSelect("monify.profile", "profile")
+            .where("monify.accountReference = :reference", { reference })
+            .getOne()
+        if (!(await user)) {
+            throw new NotFoundException("user not found")
+        }
+        const profile = (await user).profile
+        
+        const { amountPaid } = detail.eventData
+        profile.balance += amountPaid
+        return (await user).id
+        
     }
 
 }
