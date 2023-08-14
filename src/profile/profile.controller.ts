@@ -94,7 +94,7 @@ export class ProfileController {
         return await this.profileService.getMonnifyAcct(req.user.id)
     }
 
-    @Get("/monify/webhook")
+    @Post("/monify/webhook")
     async creditMonnify( @Body() detail:iMonnify) {
         
         return await this.profileService.creditMonnify(detail)
