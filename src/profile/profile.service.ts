@@ -372,8 +372,21 @@ export class ProfileService {
         
         const { amountPaid } = detail.eventData
         profile.balance += amountPaid
+        await this.profileRepository.save(profile)
         return (await user).id
         
     }
+
+
+    // async creditMonnify(detail: iMonnify) {
+    //     const {name} = detail.eventData.customer
+    //     const user = await this.getUserByFullname(name)
+    //     if (!user) {
+    //         throw new NotFoundException("user not found");
+    //     }
+    //     const { amountPaid } = detail.eventData;
+    //     user.balance + = amountPaid;
+
+    // }
 
 }
