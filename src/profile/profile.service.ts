@@ -15,7 +15,7 @@ import { koraIdDto } from './dto/koraid.dto';
 import { koraHookResponse } from './dto/korahookresponse';
 import { monifyDto } from './dto/monifyDto';
 import { monifyAccountEntity } from './entity/monifyAcount.entity';
- 
+import { iMonnify } from './interface/imonnify';
 
 
 @Injectable()
@@ -103,6 +103,14 @@ export class ProfileService {
         })
         
         if (!user) throw new NotFoundException("user not found");
+        return user;
+    }
+    
+    async getUserByFullname(name: string) {
+        const user = this.profileRepository.findOneBy({ name })
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
         return user;
     }
 
@@ -344,6 +352,18 @@ export class ProfileService {
             .getOne()
         console.log(acctDetails)
         return acctDetails
+    }
+
+    async creditMonnify(detail: iMonnify) {
+        if (detail.eventType !== "SUCCESSFUL_TRANSACTION") {
+            throw new BadRequestException("invalid transaction")
+        }
+        const {name} = detail.eventData.customer
+        const user = await this.getUserByFullname(name)
+        const { amountPaid } = detail.eventData;
+        user.balance += amountPaid;
+        await this.profileRepository.save(user)
+        return user.id;
     }
 
 }

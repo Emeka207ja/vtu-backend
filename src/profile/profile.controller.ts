@@ -11,6 +11,7 @@ import { koraIdDto } from './dto/koraid.dto';
 import { koraHookResponse } from './dto/korahookresponse';
 import { koraid } from './entity/koraid.entity';
 import { monifyDto } from './dto/monifyDto';
+import { iMonnify } from './interface/imonnify';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -91,6 +92,12 @@ export class ProfileController {
     async getMonnifyAcct( @Req() req: Request & reqUser) {
         
         return await this.profileService.getMonnifyAcct(req.user.id)
+    }
+
+    @Get("/monify/webhook")
+    async creditMonnify( @Body() detail:iMonnify) {
+        
+        return await this.profileService.creditMonnify(detail)
     }
 
     @UseGuards(JwtAuthGuard)
