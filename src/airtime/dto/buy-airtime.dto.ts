@@ -10,6 +10,6 @@ export class airtimePurchaseDto{
     @IsNumber()
     Amount: number;
 
-    @IsNumber()
-    order_id: number;
+    @IsString()
+    order_id: string;
 }

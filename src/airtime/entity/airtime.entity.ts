@@ -21,9 +21,9 @@ export class Airtime extends BaseTable{
     @IsNumber()
     Amount: number;
 
-    @Column({default:0})
-    @IsNumber()
-    order_id: number;
+    @Column({default:"a23"})
+    @IsString()
+    order_id: string;
 
     @ManyToOne(()=>Profile,(profile)=>profile.airtime)
     profile:Profile
