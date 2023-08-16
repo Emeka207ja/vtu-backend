@@ -78,7 +78,7 @@ export class AirtimeService {
             phone,
             price:amount
         }
-        await this.emailService.sendAirtimePurchaseMail("asiwebrightemeka@gmail.com", "data purchase", payload)
+        await this.emailService.sendAirtimePurchaseMail(email, "data purchase", payload)
         
         //end of mail service
         return vtdata.id
