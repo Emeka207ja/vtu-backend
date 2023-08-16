@@ -12,6 +12,7 @@ import { smileEntity } from "src/smile/entity/smileEntity";
 import { spectranetEntity } from "src/smile/entity/spectranetEntity";
 import { koraid } from "./koraid.entity";
 import { monifyAccountEntity } from "./monifyAcount.entity";
+import { vtData } from "src/airtime/entity/data.entity";
 
 export enum Gender{
     Male = "male",
@@ -144,5 +145,9 @@ export class Profile extends BaseTable {
     
     @OneToMany(() => monifyAccountEntity, (monify) => monify.profile)
     monify:monifyAccountEntity
+    
+    
+    @OneToMany(() => vtData, (vtdata) => vtdata.profile)
+    vtdata:vtData
     
 }

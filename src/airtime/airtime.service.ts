@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Airtime } from './entity/airtime.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,14 +6,17 @@ import { ProfileService } from 'src/profile/profile.service';
 import { airtimePurchaseDto } from './dto/buy-airtime.dto';
 import { EmailService } from 'src/data/email.service';
 import { purchaseEmail } from 'src/data/interface/ipurchaseemail';
+import { vtData } from './entity/data.entity';
+import { vtDataDto } from './entity/vtdata.dto';
 
 
 @Injectable()
 export class AirtimeService {
     constructor(
         @InjectRepository(Airtime) private readonly airtimeRepository: Repository<Airtime>,
+        @InjectRepository(vtData) private readonly vtDataRepository: Repository<vtData>,
         private readonly profileService: ProfileService,
-        private readonly emailService:EmailService
+        private readonly emailService:EmailService,
     ) { }
     
     async createAirtimePurchase(id: string, details: airtimePurchaseDto) {
@@ -54,6 +57,44 @@ export class AirtimeService {
            
         // await this.airtimeRepository.remove()
        
+    }
+
+    async storeDataSub(id: string, detail: vtDataDto) {
+        const user = await this.profileService._find(id)
+        if (!user) {
+            throw new NotFoundException("user does not exist")
+        }
+        const { amount } = detail
+        await this.profileService.debitAccount(id, amount)
+        const vtdata = this.vtDataRepository.create(detail)
+        vtdata.profile = user;
+        await this.vtDataRepository.save(vtdata)
+
+        //email service
+        const { name,email } = user
+        const {phone} = detail
+        const payload: purchaseEmail = {
+            name,
+            phone,
+            price:amount
+        }
+        await this.emailService.sendAirtimePurchaseMail("asiwebrightemeka@gmail.com", "data purchase", payload)
+        
+        //end of mail service
+        return vtdata.id
+    }
+
+    async getUserVtData(id: string) {
+        const user = await this.profileService._find(id)
+        if (!user) {
+            throw new NotFoundException("user does not exist")
+        }
+        const qBuilder = this.vtDataRepository.createQueryBuilder("vt");
+        const data = qBuilder
+            .leftJoinAndSelect("vt.profile", "profile")
+            .where("profile.id = :id", { id })
+            .getMany()
+        return data
     }
 
 }

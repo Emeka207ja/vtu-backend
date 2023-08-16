@@ -84,7 +84,7 @@ export class EmailService {
           <h1> ${subject}</h1>
           
           <p>dear ${detail.name}</p>
-          <p> you purchased airtime  of &#8358; ${detail.price} to ${detail.phone}</p>
+          <p> you purchased ${subject === "airtime purchase"? "airtime":"data"}  of &#8358; ${detail.price} to ${detail.phone}</p>
           <p>thanks for using Allpoint service, we appreciate big time.</p>
           <p>do well to follow our social media channels</p>
           <p>and drop your honest reviews</p>

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Peer } from './entity/peer.entity';
@@ -17,6 +17,10 @@ export class PeerTransferService {
         const {recieverName,amount} = details
         const sender = await this.profileService._find(id)
         const receiver = await this.profileService.findUserByName(recieverName);
+
+        if (sender.id === receiver.id) {
+            throw new BadRequestException("can not transfer to self")
+        }
 
         await this.profileService.updateP2P(recieverName, id, amount)
         const p2psender = this.peerRepository.create(details);
@@ -71,9 +75,14 @@ export class PeerTransferService {
         return history
     }
 
-    async confirmUser(details:userDto){
+    async confirmUser(id: string, details: userDto) {
         const {username} = details
-      const user =  await this.profileService.findUserByName(username)
-      return user;
+        const receiver = await this.profileService.findUserByName(username)
+
+        
+        if (receiver.id === id) {
+            throw new BadRequestException("same user search not allowed")
+        }
+      return receiver;
     }
 }

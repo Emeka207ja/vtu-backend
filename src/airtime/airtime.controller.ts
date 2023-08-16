@@ -3,6 +3,7 @@ import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
 import { reqUser } from 'src/type/Req';
 import { airtimePurchaseDto } from './dto/buy-airtime.dto';
 import { AirtimeService } from './airtime.service';
+import { vtDataDto } from './entity/vtdata.dto';
 
 @Controller('api/v1/airtime')
 export class AirtimeController {
@@ -19,6 +20,18 @@ export class AirtimeController {
     @Get()
     async fetchAllAirtimePurchase(@Req() req: Request & reqUser) {
         return await this.airtimeService.fetchAllAirtimePurchase(req.user.id)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post("/vtdata")
+    async storeDataSub(@Req() req: Request & reqUser,@Body() detail:vtDataDto) {
+        return await this.airtimeService.storeDataSub(req.user.id,detail)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/vtdata")
+    async getUserVtData(@Req() req: Request & reqUser) {
+        return await this.airtimeService.getUserVtData(req.user.id)
     }
 
     @UseGuards(JwtAuthGuard)

@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Airtime } from './entity/airtime.entity';
 import { ProfileModule } from 'src/profile/profile.module';
 import { DataModule } from 'src/data/data.module';
+import { vtData } from './entity/data.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Airtime]),
+    TypeOrmModule.forFeature([Airtime,vtData]),
     ProfileModule,
     DataModule
   ],

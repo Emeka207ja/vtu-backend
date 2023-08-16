@@ -40,8 +40,8 @@ export class PeerTransferController {
 
     @UseGuards(JwtAuthGuard)
     @Post("/confirm_user")
-    async confirmUser(@Body() value:userDto) {
+    async confirmUser(@Body() value:userDto,@Req() req: Request & reqUser ) {
         
-        return await this.peerService.confirmUser(value)
+        return await this.peerService.confirmUser(req.user.id,value)
     }
 }
