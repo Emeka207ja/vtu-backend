@@ -12,6 +12,7 @@ import { koraHookResponse } from './dto/korahookresponse';
 import { koraid } from './entity/koraid.entity';
 import { monifyDto } from './dto/monifyDto';
 import { iMonnify } from './interface/imonnify';
+import { testFundDto } from 'src/fund/dto/testFundDto';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -104,5 +105,10 @@ export class ProfileController {
     @Get("/korareference")
     async getAllKoraId( @Req() req: Request & reqUser) {
         return await this.profileService.getAllKoraId(req.user.id)
+    }
+    @UseGuards(JwtAuthGuard)
+    @Post("/testfunding")
+    async addTestFund( @Req() req: Request & reqUser,@Body() data :testFundDto) {
+        return await this.profileService.addTestFund(req.user.id,data)
     }
 }

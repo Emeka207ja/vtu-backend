@@ -16,6 +16,7 @@ import { koraHookResponse } from './dto/korahookresponse';
 import { monifyDto } from './dto/monifyDto';
 import { monifyAccountEntity } from './entity/monifyAcount.entity';
 import { iMonnify } from './interface/imonnify';
+import { testFundDto } from 'src/fund/dto/testFundDto';
 
 
 @Injectable()
@@ -376,17 +377,21 @@ export class ProfileService {
         return (await user).id
         
     }
+     async addTestFund(id: string, detail: testFundDto) {
+        const sender = await this._find(id)
+        if (!sender) {
+            throw new NotFoundException("sender not found")
+        }
 
+        const {username,amount} = detail
 
-    // async creditMonnify(detail: iMonnify) {
-    //     const {name} = detail.eventData.customer
-    //     const user = await this.getUserByFullname(name)
-    //     if (!user) {
-    //         throw new NotFoundException("user not found");
-    //     }
-    //     const { amountPaid } = detail.eventData;
-    //     user.balance + = amountPaid;
-
-    // }
+        const receiver = await this.findUserByName(username)
+        if (!receiver) {
+            throw new NotFoundException("receiver not found")
+        }
+         receiver.balance += amount;
+         await this.profileRepository.save(receiver)
+        
+    }
 
 }
