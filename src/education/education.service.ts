@@ -29,8 +29,8 @@ export class EducationService {
         //email sevice goes in here
 
         const subject = "waec pin"
-        const {name} = user
-        this.emailService.sendWaecMail("asiwebrightemeka@gmail.com", subject, name, detail)
+        const {name,email} = user
+        this.emailService.sendWaecMail(email, subject, name, detail)
         //end of mail service
 
         return waec.id;
