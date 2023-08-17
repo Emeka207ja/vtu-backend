@@ -13,6 +13,7 @@ import { dataEntity } from "src/data/Entity/dataEntity";
 import { koraid } from "src/profile/entity/koraid.entity";
 import { monifyAccountEntity } from "src/profile/entity/monifyAcount.entity";
 import { vtData } from "src/airtime/entity/data.entity";
+import { waecEntity } from "src/education/entity/waec.entity";
 
 export const typeormConfig: TypeOrmModuleAsyncOptions = {
    useFactory: async() => (
@@ -26,11 +27,18 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
 
       entities: [Auth,
         Profile,
-        Fund, Peer, Airtime,
-        Cable, Electric,
-        prepaidEntity, smileEntity,
-        spectranetEntity, dataEntity,
-        koraid, monifyAccountEntity,vtData
+        Fund,
+        Peer, Airtime,
+        Cable,
+        Electric,
+        prepaidEntity,
+        smileEntity,
+        spectranetEntity,
+        dataEntity,
+        koraid,
+        monifyAccountEntity,
+        vtData,
+        waecEntity
       ],
     // entities: [AuthEntity,taskEntity],
 

@@ -5,6 +5,8 @@ import { join } from 'path';
 import { ExpressHandlebars } from 'express-handlebars';
 import { purchaseEmail } from './interface/ipurchaseemail';
 import { prepaidDto } from 'src/electricity/dto/prepaidDto';
+import { waecSubmail } from './emails/waecSubEmail';
+import { waecSubDto } from 'src/education/dto/waceSubDto';
 
 @Injectable()
 export class EmailService {
@@ -170,4 +172,14 @@ export class EmailService {
         html
     });
     } 
+  async sendWaecMail(to: string, subject: string, name:string,detail:waecSubDto) {
+      const html = waecSubmail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
 }

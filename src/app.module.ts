@@ -16,6 +16,7 @@ import { ElectricityModule } from './electricity/electricity.module';
 import { AdminModule } from './admin/admin.module';
 import { SmileModule } from './smile/smile.module';
 import { DataModule } from './data/data.module';
+import { EducationModule } from './education/education.module';
 
 @Module({
   imports: [
@@ -40,6 +41,7 @@ import { DataModule } from './data/data.module';
     AdminModule,
     SmileModule,
     DataModule,
+    EducationModule,
   ],
   controllers: [AppController],
   providers: [
