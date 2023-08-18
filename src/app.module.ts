@@ -17,6 +17,7 @@ import { AdminModule } from './admin/admin.module';
 import { SmileModule } from './smile/smile.module';
 import { DataModule } from './data/data.module';
 import { EducationModule } from './education/education.module';
+import { InsuranceModule } from './insurance/insurance.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { EducationModule } from './education/education.module';
     SmileModule,
     DataModule,
     EducationModule,
+    InsuranceModule,
   ],
   controllers: [AppController],
   providers: [

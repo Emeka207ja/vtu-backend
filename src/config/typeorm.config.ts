@@ -14,6 +14,8 @@ import { koraid } from "src/profile/entity/koraid.entity";
 import { monifyAccountEntity } from "src/profile/entity/monifyAcount.entity";
 import { vtData } from "src/airtime/entity/data.entity";
 import { waecEntity } from "src/education/entity/waec.entity";
+import { vehicleEntitity } from "src/insurance/entity/vehicleInsure.entity";
+import { homeEntitity } from "src/insurance/entity/homeInsure.entity";
 
 export const typeormConfig: TypeOrmModuleAsyncOptions = {
    useFactory: async() => (
@@ -38,7 +40,9 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
         koraid,
         monifyAccountEntity,
         vtData,
-        waecEntity
+        waecEntity,
+        vehicleEntitity,
+        homeEntitity
       ],
     // entities: [AuthEntity,taskEntity],
 

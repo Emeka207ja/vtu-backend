@@ -7,6 +7,10 @@ import { purchaseEmail } from './interface/ipurchaseemail';
 import { prepaidDto } from 'src/electricity/dto/prepaidDto';
 import { waecSubmail } from './emails/waecSubEmail';
 import { waecSubDto } from 'src/education/dto/waceSubDto';
+import { vehicleSubmail } from './emails/vehicleMail';
+import { vehicleInsureDto } from 'src/insurance/dto/createvehicle.dto';
+import { homeInsureDto } from 'src/insurance/dto/createHome.dto';
+import { homeSubmail } from './emails/homeMail';
 
 @Injectable()
 export class EmailService {
@@ -174,6 +178,28 @@ export class EmailService {
     } 
   async sendWaecMail(to: string, subject: string, name:string,detail:waecSubDto) {
       const html = waecSubmail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
+
+  async sendVehicleInsureMail(to: string, subject: string, name:string,detail:vehicleInsureDto) {
+      const html = vehicleSubmail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
+
+  async sendHomeInsureMail(to: string, subject: string, name:string,detail:homeInsureDto) {
+      const html = homeSubmail(subject,name,detail)
    
     await this.transporter.sendMail({
       from: process.env.EMAIL,

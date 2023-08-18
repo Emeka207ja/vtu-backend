@@ -14,6 +14,8 @@ import { koraid } from "./koraid.entity";
 import { monifyAccountEntity } from "./monifyAcount.entity";
 import { vtData } from "src/airtime/entity/data.entity";
 import { waecEntity } from "src/education/entity/waec.entity";
+import { vehicleEntitity } from "src/insurance/entity/vehicleInsure.entity";
+import { homeEntitity } from "src/insurance/entity/homeInsure.entity";
 
 export enum Gender{
     Male = "male",
@@ -145,13 +147,19 @@ export class Profile extends BaseTable {
     koraid:koraid[]
     
     @OneToMany(() => monifyAccountEntity, (monify) => monify.profile)
-    monify:monifyAccountEntity
+    monify:monifyAccountEntity[]
     
     
     @OneToMany(() => vtData, (vtdata) => vtdata.profile)
-    vtdata: vtData
+    vtdata: vtData[]
     
     @OneToMany(() => waecEntity, (waec) => waec.profile)
-    waec:waecEntity
+    waec: waecEntity[]
+    
+    @OneToMany(() => vehicleEntitity, (vehicle) => vehicle.profile)
+    vehicle:vehicleEntitity[]
+    
+    @OneToMany(() => homeEntitity, (home) => home.profile)
+    home:homeEntitity[]
     
 }
