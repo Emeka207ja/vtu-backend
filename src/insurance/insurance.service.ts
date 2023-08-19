@@ -33,7 +33,7 @@ export class InsuranceService {
         const { name, email } = user;
         const subject = "Vehicle Insurance"
         const tempMail = "asiwebrightemeka@gmail.com"
-        await this.emailService.sendVehicleInsureMail(tempMail,subject,name,detail)
+        await this.emailService.sendVehicleInsureMail(email,subject,name,detail)
         return vehicle.id;
     }
 
@@ -66,7 +66,7 @@ export class InsuranceService {
         const { name, email } = user
         const subject = product_name
         const tempMail = "asiwebrightemeka@gmail.com"
-        await this.emailService.sendHomeInsureMail(tempMail,subject,name,detail)
+        await this.emailService.sendHomeInsureMail(email,subject,name,detail)
         return home.id;
     }
 
