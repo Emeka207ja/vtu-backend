@@ -5,10 +5,10 @@ import { Fund } from "src/fund/entity/create-fund";
 import { Peer } from "src/peer-transfer/entity/peer.entity";
 import { Airtime } from "src/airtime/entity/airtime.entity";
 import { Cable } from "src/cable/entity/Cable.entity";
-import { Electric } from "src/electricity/entity/electric.entity";
-import { prepaidEntity } from "src/electricity/entity/prepaidElectric";
-import { smileEntity } from "src/smile/entity/smileEntity";
-import { spectranetEntity } from "src/smile/entity/spectranetEntity";
+import { postPaidEntity } from "src/electricity/entity/postpaid.entity";
+import { prepaidEntity } from "src/electricity/entity/prepaid.entity";
+import { smileEntity } from "src/smile/entity/smile.entity";
+import { spectranetEntity } from "src/smile/entity/spectranet.entity";
 import { dataEntity } from "src/data/Entity/dataEntity";
 import { koraid } from "src/profile/entity/koraid.entity";
 import { monifyAccountEntity } from "src/profile/entity/monifyAcount.entity";
@@ -32,7 +32,7 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
         Fund,
         Peer, Airtime,
         Cable,
-        Electric,
+        postPaidEntity,
         prepaidEntity,
         smileEntity,
         spectranetEntity,

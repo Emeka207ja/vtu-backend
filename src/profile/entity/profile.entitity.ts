@@ -6,10 +6,10 @@ import { Fund } from "src/fund/entity/create-fund";
 import { Peer } from "src/peer-transfer/entity/peer.entity";
 import { Airtime } from "src/airtime/entity/airtime.entity";
 import { Cable } from "../../cable/entity/Cable.entity";
-import { Electric } from "src/electricity/entity/electric.entity";
-import { prepaidEntity } from "src/electricity/entity/prepaidElectric";
-import { smileEntity } from "src/smile/entity/smileEntity";
-import { spectranetEntity } from "src/smile/entity/spectranetEntity";
+import { postPaidEntity } from "src/electricity/entity/postpaid.entity";
+import { prepaidEntity } from "src/electricity/entity/prepaid.entity";
+import { smileEntity } from "src/smile/entity/smile.entity";
+import { spectranetEntity } from "src/smile/entity/spectranet.entity";
 import { koraid } from "./koraid.entity";
 import { monifyAccountEntity } from "./monifyAcount.entity";
 import { vtData } from "src/airtime/entity/data.entity";
@@ -130,8 +130,8 @@ export class Profile extends BaseTable {
     @OneToMany(() => Cable, (cable) => cable.profile)
     cable: Cable[]
 
-    @OneToMany(() => Electric, (electric) => electric.profile)
-    electric: Electric[]
+    @OneToMany(() => postPaidEntity, (electric) => electric.profile)
+    postpaidElectric: postPaidEntity[]
 
     @OneToMany(() => prepaidEntity, (PrepaidEntity) => PrepaidEntity.profile)
     prepaid: prepaidEntity[]

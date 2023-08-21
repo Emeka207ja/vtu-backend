@@ -1,6 +1,6 @@
 import { IsNumber, IsString } from "class-validator";
 
-export class prepaidDto{
+export class postpaidDto{
     @IsString()
     requestId: string;
     @IsString()

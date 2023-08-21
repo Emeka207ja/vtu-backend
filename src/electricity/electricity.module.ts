@@ -2,14 +2,14 @@ import { Module } from '@nestjs/common';
 import { ElectricityService } from './electricity.service';
 import { ElectricityController } from './electricity.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Electric } from './entity/electric.entity';
+import { postPaidEntity } from './entity/postpaid.entity';
 import { ProfileModule } from 'src/profile/profile.module';
-import { prepaidEntity } from './entity/prepaidElectric';
+import { prepaidEntity } from './entity/prepaid.entity';
 import { DataModule } from 'src/data/data.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Electric,prepaidEntity]),
+    TypeOrmModule.forFeature([postPaidEntity,prepaidEntity]),
     ProfileModule,
     DataModule
   ],

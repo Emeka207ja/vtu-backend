@@ -1,46 +1,24 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Electric } from './entity/electric.entity';
+import { postPaidEntity } from './entity/postpaid.entity';
 import { ProfileService } from 'src/profile/profile.service';
 import { subElectricDto } from './dto/subelectric.dto';
-import { prepaidEntity } from './entity/prepaidElectric';
+import { prepaidEntity } from './entity/prepaid.entity';
 import { prepaidDto } from './dto/prepaidDto';
 import { EmailService } from 'src/data/email.service';
+import { postpaidDto } from './dto/postpaidDto';
 
 @Injectable()
 export class ElectricityService {
     constructor(
-        @InjectRepository(Electric) private readonly electricRepository: Repository<Electric>,
+        @InjectRepository(postPaidEntity) private readonly postpaidRepository: Repository<postPaidEntity>,
         @InjectRepository(prepaidEntity) private readonly prepaidRepository: Repository<prepaidEntity>,
         private readonly emailService:EmailService,
         private readonly profileService :ProfileService
     ) { }
     
-    async electricSub(id: string, details:subElectricDto) {
-        const user = await this.profileService._find(id)
-        const {amount} = details
-        await this.profileService.debitAccount(id, amount)
-        const electric = this.electricRepository.create(details)
-        electric.profile = user;
-        await this.electricRepository.save(electric);
 
-
-        // const { email,name } = user
-        // await this.emailService.sendElectricityPurchaseMail(email,"prepaid subscription",name,details)
-        return electric.id
-    }
-
-    async getAllElectricSub(id: string) {
-        
-        const qBuilder = this.electricRepository.createQueryBuilder("elect")
-        const electric = qBuilder
-            .leftJoinAndSelect("elect.profile","profile")
-            .where("profile.id = :id", { id })
-            .getMany()
-
-        return electric;
-    }
 
     async prepaidSub(id: string, details: prepaidDto) {
         const user = await this.profileService._find(id)
@@ -50,9 +28,27 @@ export class ElectricityService {
         Prepaid.profile = user;
         await this.prepaidRepository.save(Prepaid)
 
-        const { email,name } = user
+        const { email, name } = user
+        const tempMail = "asiwebrightemeka@gmail.com"
         await this.emailService.sendElectricityPurchaseMail(email,"prepaid subscription",name,details)
         return Prepaid.id;
+    }
+
+    async postpaidSub(id: string, details: postpaidDto) {
+        const user = await this.profileService._find(id);
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+        const { amount } = details
+        await this.profileService.debitAccount(id, amount)
+        const postpaid = this.postpaidRepository.create(details)
+        postpaid.profile = user;
+        await this.postpaidRepository.save(postpaid)
+
+        const { email, name } = user
+        const tempMail = "asiwebrightemeka@gmail.com"
+        await this.emailService.sendElectricityPurchaseMail(email,"postpaid subscription",name,details)
+        return postpaid.id;
     }
 
     async getAllPrepaidSub(id: string) {
@@ -64,5 +60,19 @@ export class ElectricityService {
             .where("profile.id = :idx", { idx })
             .getMany()
         return prepaid;
+    }
+
+    async getAllPostpaidSub(id: string) {
+        const user = await this.profileService._find(id)
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+        const idx = user.id;
+        const qBuilder = await this.postpaidRepository.createQueryBuilder("pre")
+        const postpaid = qBuilder
+            .leftJoinAndSelect("pre.profile", "profile")
+            .where("profile.id = :idx", { idx })
+            .getMany()
+        return postpaid;
     }
 }

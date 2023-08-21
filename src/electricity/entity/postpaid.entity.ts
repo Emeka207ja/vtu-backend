@@ -7,31 +7,23 @@ import { Profile } from "src/profile/entity/profile.entitity";
  
 @Entity()
 
-export class Electric extends BaseTable{
-    @Column()
+export class postPaidEntity extends BaseTable{
+   @Column()
     @IsString()
-    meter_number: string;
+    requestId: string;
+
+    @Column({default:""})
+    @IsString()
+    product_name: string;
+
+    @Column({default:""})
+    @IsString()
+    purchased_code: string;
 
     @Column()
     @IsNumber()
     amount: number;
 
-    @Column()
-    @IsNumber()
-    order_id: number;
-
-    @Column()
-    @IsString()
-    phone: string;
-
-    @Column({default:""})
-    @IsString()
-    mainToken: string;
-
-    @Column({default:""})
-    @IsString()
-    bonusToken: string;
-
-    @ManyToOne(() => Profile, (profile) => profile.electric)
+    @ManyToOne(() => Profile, (profile) => profile.postpaidElectric)
     profile:Profile
 }

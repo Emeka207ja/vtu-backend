@@ -11,17 +11,9 @@ export class prepaidEntity extends BaseTable{
     @IsString()
     requestId: string;
 
-    @Column()
-    @IsString()
-    date: string;
-
-    @Column()
-    @IsString()
-    utilityName: string;
-
     @Column({default:""})
     @IsString()
-    mainToken: string;
+    product_name: string;
 
     @Column({default:""})
     @IsString()
