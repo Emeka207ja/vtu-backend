@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import exphbs from 'express-handlebars';
-import { join } from 'path';
-import { ExpressHandlebars } from 'express-handlebars';
 import { purchaseEmail } from './interface/ipurchaseemail';
 import { prepaidDto } from 'src/electricity/dto/prepaidDto';
 import { waecSubmail } from './emails/waecSubEmail';
@@ -13,6 +10,10 @@ import { homeInsureDto } from 'src/insurance/dto/createHome.dto';
 import { homeSubmail } from './emails/homeMail';
 import { electricityMail } from './emails/electricityMail';
 import { airtimeMail } from './emails/airtimeMail';
+import { smileMail } from './emails/smileEmail';
+import { subSmileDto } from 'src/smile/dto/smileSubDto';
+import { spectranetDto } from 'src/smile/dto/spectrantDto';
+import { spectranetMail } from './emails/spectranetMail';
 
 @Injectable()
 export class EmailService {
@@ -108,6 +109,27 @@ export class EmailService {
 
   async sendHomeInsureMail(to: string, subject: string, name:string,detail:homeInsureDto) {
       const html = homeSubmail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
+
+  async sendSmileSubMail(to: string, subject: string, name:string,detail:subSmileDto) {
+      const html = smileMail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
+  async sendSpectranetSubMail(to: string, subject: string, name:string,detail:spectranetDto) {
+      const html = spectranetMail(subject,name,detail)
    
     await this.transporter.sendMail({
       from: process.env.EMAIL,

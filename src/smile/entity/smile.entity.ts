@@ -9,7 +9,7 @@ export class smileEntity extends BaseTable{
     @IsString()
     requestId: string
     
-    @Column({type:"numeric"})
+    @Column({type:"numeric", precision:20, scale:2})
     @IsNumber()
     amount: number
     

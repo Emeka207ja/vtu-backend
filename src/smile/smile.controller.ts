@@ -32,7 +32,7 @@ export class SmileController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get()
+    @Get("/spectranet")
     async getAllSpectranetSub( @Req() req: Request & reqUser) {
         return await this.smileService.getAllSpectranetSub(req.user.id)
     }
