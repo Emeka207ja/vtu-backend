@@ -33,7 +33,7 @@ export class SmileService {
         const subject = "smile subscription"
         const tempMail = "asiwebrightemeka@gmail.com";
         const { name, email } = user
-        await this.emailService.sendSmileSubMail(tempMail, subject, name, details)
+        await this.emailService.sendSmileSubMail(email, subject, name, details)
         
         return smile.id
     }
@@ -51,7 +51,7 @@ export class SmileService {
         const subject = "spectranet subscription"
         const tempMail = "asiwebrightemeka@gmail.com";
         const { name, email } = user
-        await this.emailService.sendSpectranetSubMail(tempMail, subject, name, details)
+        await this.emailService.sendSpectranetSubMail(email, subject, name, details)
         
         return spectranet.id
     }
