@@ -33,7 +33,7 @@ export class ShowmaxService {
             throw new NotFoundException("user not found")
         }
 
-        const qBuilder = this.showmaxRepository.createQueryBuilder("shomax");
+        const qBuilder = this.showmaxRepository.createQueryBuilder("showmax");
         const showmax = qBuilder
             .leftJoinAndSelect("showmax.profile", "profile")
             .where("profile.id = :id", { id })
