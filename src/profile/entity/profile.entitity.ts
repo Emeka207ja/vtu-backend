@@ -16,6 +16,10 @@ import { vtData } from "src/airtime/entity/data.entity";
 import { waecEntity } from "src/education/entity/waec.entity";
 import { vehicleEntitity } from "src/insurance/entity/vehicleInsure.entity";
 import { homeEntitity } from "src/insurance/entity/homeInsure.entity";
+import { showMaxEntity } from "src/showmax/entity/showmax.entity";
+import { DstvEntity } from "src/dstv/entity/dstv.entity";
+import { GotvEntity } from "src/gotv/entity/gotv.entity";
+import { StartimesEntity } from "src/startimes/entity/startimes.entity";
 
 export enum Gender{
     Male = "male",
@@ -160,6 +164,18 @@ export class Profile extends BaseTable {
     vehicle:vehicleEntitity[]
     
     @OneToMany(() => homeEntitity, (home) => home.profile)
-    home:homeEntitity[]
+    home: homeEntitity[]
+    
+    @OneToMany(() => showMaxEntity, (showmax) => showmax.profile)
+    showmax: showMaxEntity[]
+    
+    @OneToMany(() => DstvEntity, (dstv) => dstv.profile)
+    dstv: DstvEntity[]
+    
+    @OneToMany(() => GotvEntity, (gotv) => gotv.profile)
+    gotv: GotvEntity[]
+    
+    @OneToMany(() => StartimesEntity, (startimes) => startimes.profile)
+    startimes:StartimesEntity[]
     
 }

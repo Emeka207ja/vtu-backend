@@ -18,6 +18,10 @@ import { SmileModule } from './smile/smile.module';
 import { DataModule } from './data/data.module';
 import { EducationModule } from './education/education.module';
 import { InsuranceModule } from './insurance/insurance.module';
+import { ShowmaxModule } from './showmax/showmax.module';
+import { DstvModule } from './dstv/dstv.module';
+import { GotvModule } from './gotv/gotv.module';
+import { StartimesModule } from './startimes/startimes.module';
 
 @Module({
   imports: [
@@ -44,6 +48,10 @@ import { InsuranceModule } from './insurance/insurance.module';
     DataModule,
     EducationModule,
     InsuranceModule,
+    ShowmaxModule,
+    DstvModule,
+    GotvModule,
+    StartimesModule,
   ],
   controllers: [AppController],
   providers: [

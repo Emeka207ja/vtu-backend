@@ -16,6 +16,10 @@ import { vtData } from "src/airtime/entity/data.entity";
 import { waecEntity } from "src/education/entity/waec.entity";
 import { vehicleEntitity } from "src/insurance/entity/vehicleInsure.entity";
 import { homeEntitity } from "src/insurance/entity/homeInsure.entity";
+import { GotvEntity } from "src/gotv/entity/gotv.entity";
+import { showMaxEntity } from "src/showmax/entity/showmax.entity";
+import { DstvEntity } from "src/dstv/entity/dstv.entity";
+import { StartimesEntity } from "src/startimes/entity/startimes.entity";
 
 export const typeormConfig: TypeOrmModuleAsyncOptions = {
    useFactory: async() => (
@@ -42,7 +46,11 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
         vtData,
         waecEntity,
         vehicleEntitity,
-        homeEntitity
+        homeEntitity,
+        GotvEntity,
+        DstvEntity,
+        showMaxEntity,
+        StartimesEntity
       ],
     // entities: [AuthEntity,taskEntity],
 
