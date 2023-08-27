@@ -24,6 +24,12 @@ export class ShowmaxService {
         const showmax = this.showmaxRepository.create(detail);
         showmax.profile = user;
         await this.showmaxRepository.save(showmax);
+
+        //mailing service
+        const subject = "showmax subscription";
+        const tempMAil = "asiwebrightemeka@gmail.com"
+        const { name, email } = user
+        await this.emailService.sendShowmaxSubMail(email,subject,name,detail)
         return showmax.id
     }
 

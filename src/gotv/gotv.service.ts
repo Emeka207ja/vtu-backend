@@ -23,7 +23,14 @@ export class GotvService {
         const { amount } = detail;
         await this.profileService.debitAccount(id, amount)
         const gotv = this.gotvRepository.create(detail);
+        gotv.profile = user
         await this.gotvRepository.save(gotv);
+         
+        //mailing service
+        const subject = "gotv subscription";
+        const tempMAil = "asiwebrightemeka@gmail.com"
+        const { name, email } = user
+        await this.emailService.sendDstvSubMail(email,subject,name,detail)
         return gotv.id
     }
 

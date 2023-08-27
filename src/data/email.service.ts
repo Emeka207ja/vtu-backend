@@ -14,6 +14,10 @@ import { smileMail } from './emails/smileEmail';
 import { subSmileDto } from 'src/smile/dto/smileSubDto';
 import { spectranetDto } from 'src/smile/dto/spectrantDto';
 import { spectranetMail } from './emails/spectranetMail';
+import { dstvMail } from './emails/dstvMail';
+import { dstvDto } from 'src/dstv/dto/dstv.dto';
+import { showmaxDto } from 'src/showmax/dto/showmax.dto';
+import { showmaxMail } from './emails/showmaxMail';
 
 @Injectable()
 export class EmailService {
@@ -130,6 +134,26 @@ export class EmailService {
   } 
   async sendSpectranetSubMail(to: string, subject: string, name:string,detail:spectranetDto) {
       const html = spectranetMail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
+  async sendDstvSubMail(to: string, subject: string, name:string,detail:dstvDto) {
+      const html:string = dstvMail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
+  async sendShowmaxSubMail(to: string, subject: string, name:string,detail:showmaxDto) {
+      const html:string = showmaxMail(subject,name,detail)
    
     await this.transporter.sendMail({
       from: process.env.EMAIL,

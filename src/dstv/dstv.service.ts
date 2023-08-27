@@ -21,7 +21,14 @@ export class DstvService {
         const { amount } = detail;
         await this.profileService.debitAccount(id, amount)
         const dstv = this.dstvRepository.create(detail);
+        dstv.profile = user
         await this.dstvRepository.save(dstv);
+
+        //mailing service
+        const subject = "dstv subscription";
+        const tempMAil = "asiwebrightemeka@gmail.com"
+        const { name, email } = user
+        await this.emailService.sendDstvSubMail(email,subject,name,detail)
         return dstv.id
     }
 

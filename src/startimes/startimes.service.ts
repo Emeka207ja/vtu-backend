@@ -22,7 +22,14 @@ export class StartimesService {
         const { amount } = detail;
         await this.profileService.debitAccount(id, amount)
         const startimes = this.startimesRepository.create(detail);
+        startimes.profile = user
         await this.startimesRepository.save(startimes);
+          
+        //mailing service
+        const subject = "startimes subscription";
+        const tempMAil = "asiwebrightemeka@gmail.com"
+        const { name, email } = user
+        await this.emailService.sendDstvSubMail(email,subject,name,detail)
         return startimes.id
     }
 
