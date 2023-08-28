@@ -80,13 +80,14 @@ export class DataService {
     }
 
     async purchaseData(id: string, details: dataPurchaseDto) {
-        const { phone, price } = details
+        const { phone, price,requestId } = details
         const user = await this.profileService._find(id)
         const { email, name } = user
         const vals: purchaseEmail = {
             phone: phone,
             name: name,
-            price:price
+            price: price,
+            requestId
         }
         await this.profileService.debitAccount(id, price)
         await this.emailService.sendMail( email,"data purchase", vals)

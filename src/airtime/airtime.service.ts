@@ -20,7 +20,7 @@ export class AirtimeService {
     ) { }
     
     async createAirtimePurchase(id: string, details: airtimePurchaseDto) {
-        const { Amount,phone } = details
+        const { Amount,phone,order_id } = details
         if (Amount <= 0) {
             throw new BadRequestException("invalid Amount")
         }
@@ -35,7 +35,8 @@ export class AirtimeService {
         const payload: purchaseEmail = {
             name,
             phone,
-            price:Amount
+            price: Amount,
+            requestId:order_id
         }
         await this.emailService.sendAirtimePurchaseMail(email,"airtime purchase",payload)
         return airtime.id
@@ -64,7 +65,7 @@ export class AirtimeService {
         if (!user) {
             throw new NotFoundException("user does not exist")
         }
-        const { amount } = detail
+        const { amount,request_id } = detail
         await this.profileService.debitAccount(id, amount)
         const vtdata = this.vtDataRepository.create(detail)
         vtdata.profile = user;
@@ -76,7 +77,8 @@ export class AirtimeService {
         const payload: purchaseEmail = {
             name,
             phone,
-            price:amount
+            price: amount,
+            requestId:request_id
         }
         await this.emailService.sendAirtimePurchaseMail(email, "data purchase", payload)
         

@@ -30,6 +30,7 @@ export const electricityMail = (subject:string, name:string,detail:prepaidDto) =
           <p> you purchased electricity subscription  of &#8358; ${detail.amount} </p>
           <p> purchased token :  ${detail.purchased_code} </p>
           <p> utility name:   ${detail.product_name} </p>
+           <p> transaction id :  ${detail.requestId} </p>
           <p>thanks for using allpointvtu, we appreciate big time!</p>
           <p>do well to follow our social media channels</p>
           <p>and drop your honest reviews</p>

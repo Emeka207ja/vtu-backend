@@ -5,7 +5,12 @@ export class dataPurchaseDto{
     @IsNotEmpty()
     phone: string;
 
+    @IsString()
+    @IsNotEmpty()
+    requestId: string;
+
     @IsNumber()
     @IsNotEmpty()
     price: number;
+    
 }

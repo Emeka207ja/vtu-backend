@@ -57,6 +57,7 @@ export class EmailService {
           
           <p>dear ${detail.name}</p>
           <p> you purchased data  of &#8358; ${detail.price} to ${detail.phone}</p>
+            <p> transaction id :  ${detail.requestId} </p>
           <p>thanks for using allpointvtu, we are committed to serving you better</p>
       </body>
       </html>
