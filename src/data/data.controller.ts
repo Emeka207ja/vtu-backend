@@ -57,6 +57,20 @@ export class DataController {
         return await this.dataService.getDataById(id)
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Get("/failed/:service")
+    @Roles(Role.ADMIN)
+    async getFailedTransactions( @Param("service") service:string,@Req() req:Request&reqUser) {
+        return await this.dataService.getFailedTransactions(req.user.id,service)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/refund/:requestId/:username")
+    @Roles(Role.ADMIN)
+    async refund( @Param("requestId") requestId:string, @Param("username") username:string) {
+        return await this.dataService.refund(username,requestId)
+    }
+
 
 
 }

@@ -5,10 +5,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { dataEntity } from './Entity/dataEntity';
 import { EmailService } from "./email.service"
 import { ProfileModule } from 'src/profile/profile.module';
+import { debitAccountEntity } from 'src/profile/entity/debit.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([dataEntity]),
+    TypeOrmModule.forFeature([dataEntity,debitAccountEntity]),
     ProfileModule,
   ],
   providers: [DataService,EmailService],

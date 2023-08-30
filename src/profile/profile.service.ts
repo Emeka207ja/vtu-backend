@@ -19,14 +19,17 @@ import { iMonnify } from './interface/imonnify';
 import { testFundDto } from 'src/fund/dto/testFundDto';
 import { Role } from 'src/auth/entity/auth.entity';
 import { usernameDto } from './dto/username.dto';
-
+import { debitAccountEntity } from './entity/debit.entity';
+import { debitDto } from './dto/debit.dto';
+import { debitState } from './entity/debit.entity';
 
 @Injectable()
 export class ProfileService {
     constructor(
         @InjectRepository(Profile) private readonly profileRepository: Repository<Profile>,
         @InjectRepository(koraid) private readonly korarepository:Repository<koraid>,
-        @InjectRepository(monifyAccountEntity) private readonly monnifyRepository:Repository<monifyAccountEntity>
+        @InjectRepository(monifyAccountEntity) private readonly monnifyRepository:Repository<monifyAccountEntity>,
+        @InjectRepository(debitAccountEntity) private readonly debitAccountRepository:Repository<debitAccountEntity>
     ) { }
     
     async createProfile(profileDto: createProfileDto): Promise<Profile> {
@@ -262,6 +265,18 @@ export class ProfileService {
         await this.profileRepository.save(user)
         return user.id
     }
+    async manualFundingUpdateByID(id: string, amount: number) {
+        const user = await this._find(id)
+        if (!user) {
+            throw new NotFoundException("user does not exist")
+        }
+        if (amount <= 0) {
+            throw new BadRequestException("negatives not allowed")
+        }
+        user.balance += amount;
+        await this.profileRepository.save(user)
+        return user.id
+    }
 
     // Update transfer Pin
 
@@ -413,6 +428,34 @@ export class ProfileService {
          receiver.balance += amount;
          await this.profileRepository.save(receiver)
         
+     }
+    
+    async debitUserAccount(id: string, detail: debitDto) {
+        const user = await this._find(id)
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+        const { amount } = detail;
+        await this.debitAccount(id, amount)
+        const debit = this.debitAccountRepository.create(detail);
+        debit.profile = user;
+        await this.debitAccountRepository.save(debit);
+        return debit.id
+    }
+
+    async findAndUpdateDebit(id: string, requestId: string) {
+        const user = await this._find(id)
+        if (!user) {
+            throw new NotFoundException("user does not exist")
+        }
+        const qBuilder = this.debitAccountRepository.createQueryBuilder("debit")
+        const debit = qBuilder
+            .leftJoinAndSelect("debit.profile", "profile")
+            .where("profile.id = :id", { id })
+            .andWhere("debit.requestId = :requestId", { requestId })
+            .getOne()
+            ; (await debit).success = debitState.SUCCESS;
+        await this.debitAccountRepository.save( await debit)
     }
 
 }

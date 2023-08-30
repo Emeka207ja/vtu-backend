@@ -20,6 +20,7 @@ import { showMaxEntity } from "src/showmax/entity/showmax.entity";
 import { DstvEntity } from "src/dstv/entity/dstv.entity";
 import { GotvEntity } from "src/gotv/entity/gotv.entity";
 import { StartimesEntity } from "src/startimes/entity/startimes.entity";
+import { debitAccountEntity } from "./debit.entity";
 
 export enum Gender{
     Male = "male",
@@ -183,5 +184,8 @@ export class Profile extends BaseTable {
     
     @OneToMany(() => StartimesEntity, (startimes) => startimes.profile)
     startimes:StartimesEntity[]
+    
+    @OneToMany(() => debitAccountEntity, (debitAcct) => debitAcct.profile)
+    debitAcct:debitAccountEntity[]
     
 }

@@ -10,6 +10,8 @@ import { EmailService } from './email.service';
 import { dataPurchaseDto } from './Dto/purchasedata.dto';
 import { ProfileService } from 'src/profile/profile.service';
 import { purchaseEmail } from './interface/ipurchaseemail';
+import { debitAccountEntity } from 'src/profile/entity/debit.entity';
+import { debitState } from 'src/profile/entity/debit.entity';
 
 
 
@@ -18,6 +20,7 @@ import { purchaseEmail } from './interface/ipurchaseemail';
 export class DataService {
     constructor(
         @InjectRepository(dataEntity) private readonly dataRepository: Repository<dataEntity>,
+        @InjectRepository(debitAccountEntity) private readonly debitAccountRepository:Repository<debitAccountEntity>,
         private readonly emailService:EmailService,
         private readonly profileService:ProfileService
     ) { }
@@ -89,8 +92,47 @@ export class DataService {
             price: price,
             requestId
         }
-        await this.profileService.debitAccount(id, price)
+        // await this.profileService.debitAccount(id, price)
+        await this.profileService.findAndUpdateDebit(id,requestId)
         await this.emailService.sendMail( email,"data purchase", vals)
         return user.id;
+    }
+
+    async getFailedTransactions(id: string,service:string) {
+        const user = await this.profileService._find(id);
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+        // const type = service;
+        const pend = debitState.PENDING
+        const qBuilder = this.debitAccountRepository.createQueryBuilder("debit")
+        const debit = qBuilder
+            .leftJoinAndSelect("debit.profile", "profile")
+            .where("profile.id = :id", { id })
+            .andWhere("debit.service = :service", { service })
+            .andWhere("debit.success = :pend", { pend })
+            .getMany()
+        return debit
+    }
+    async refund(username: string, requestId: string) {
+        const user = await this.profileService.findUserByName(username)
+        const {id} = user
+        const reqId = await this.debitAccountRepository.findOneBy({ requestId })
+        if (!reqId) {
+            throw new NotFoundException("request not found")
+        }
+        if (!user) {
+            throw new NotFoundException("user does not exist")
+        }
+        const qBuilder = this.debitAccountRepository.createQueryBuilder("debit")
+        const debit = qBuilder
+            .leftJoinAndSelect("debit.profile", "profile")
+            .where("profile.username = :username", { username })
+            .andWhere("debit.requestId = :requestId", { requestId })
+            .getOne()
+        const {amount} = await debit
+        await this.profileService.manualFundingUpdateByID(id, amount)
+            ; (await debit).success = debitState.REFUND;
+        await this.debitAccountRepository.save( await debit)
     }
 }

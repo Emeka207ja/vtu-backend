@@ -14,6 +14,7 @@ import { monifyDto } from './dto/monifyDto';
 import { iMonnify } from './interface/imonnify';
 import { testFundDto } from 'src/fund/dto/testFundDto';
 import { usernameDto } from './dto/username.dto';
+import { debitDto } from './dto/debit.dto';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -113,6 +114,16 @@ export class ProfileController {
     async getAllKoraId( @Req() req: Request & reqUser) {
         return await this.profileService.getAllKoraId(req.user.id)
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Post("/debitaccount")
+    async debitUserAccount( @Req() req: Request & reqUser,@Body() detail: debitDto) {
+        return await this.profileService.debitUserAccount(req.user.id,detail)
+    }
+
+
+
+
     @UseGuards(JwtAuthGuard)
     @Post("/testfunding")
     async addTestFund( @Req() req: Request & reqUser,@Body() data :testFundDto) {
