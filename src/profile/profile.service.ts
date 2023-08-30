@@ -18,6 +18,7 @@ import { monifyAccountEntity } from './entity/monifyAcount.entity';
 import { iMonnify } from './interface/imonnify';
 import { testFundDto } from 'src/fund/dto/testFundDto';
 import { Role } from 'src/auth/entity/auth.entity';
+import { usernameDto } from './dto/username.dto';
 
 
 @Injectable()
@@ -86,12 +87,14 @@ export class ProfileService {
     
     async updateProfilePic() { }
 
-    async makeAdmin(id: string) {
-        const user = await this._find(id);
+    async makeAdmin(detail: usernameDto) {
+        const { username } = detail;
+        const user = await this.findUserByName(username);
         if (!user) {
             throw new NotFoundException("user not found")
         }
         const { roles } = user;
+        
         if (roles.includes(Role.ADMIN)) {
             return "user already an admin";
         }

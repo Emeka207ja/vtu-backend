@@ -13,6 +13,7 @@ import { koraid } from './entity/koraid.entity';
 import { monifyDto } from './dto/monifyDto';
 import { iMonnify } from './interface/imonnify';
 import { testFundDto } from 'src/fund/dto/testFundDto';
+import { usernameDto } from './dto/username.dto';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -27,9 +28,9 @@ export class ProfileController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get("/make_admin")
-    async makeAdmin(@Req() req: Request & reqUser) {
-        return await this.profileService.makeAdmin(req.user.id);
+    @Post("/make_admin")
+    async makeAdmin(@Body() detail:usernameDto) {
+        return await this.profileService.makeAdmin(detail);
     }
     
     
