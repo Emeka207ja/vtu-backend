@@ -38,6 +38,7 @@ export class AirtimeService {
             price: Amount,
             requestId:order_id
         }
+        const tempMail = "asiwennaemeka@gmail.com"
         await this.emailService.sendAirtimePurchaseMail(email,"airtime purchase",payload)
         return airtime.id
     }
@@ -80,6 +81,7 @@ export class AirtimeService {
             price: amount,
             requestId:request_id
         }
+        const tempMail = "asiwennaemeka@gmail.com"
         await this.emailService.sendAirtimePurchaseMail(email, "data purchase", payload)
         
         //end of mail service

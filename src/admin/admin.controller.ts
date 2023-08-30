@@ -3,7 +3,8 @@ import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
 import { AdminService } from './admin.service';
 import { searchUserDto } from './dto/searchuser.dto';
 import {fundUpdateDto} from "./dto/fundingUpdate.dto"
-
+import { Roles } from 'src/profile/decorators/roles.decorator';
+import { Role } from 'src/auth/entity/auth.entity';
 
 @Controller('api/v1/admin')
 export class AdminController {
@@ -12,6 +13,7 @@ export class AdminController {
     ) { }
     
     @UseGuards(JwtAuthGuard)
+    @Roles(Role.ADMIN)
     @Post("/search_user")
     async searchUser(@Body() detail:searchUserDto) {
         return this.adminService.adminSearchUser(detail)
@@ -19,11 +21,13 @@ export class AdminController {
 
     @UseGuards(JwtAuthGuard)
     @Get("/total_count")
+    @Roles(Role.ADMIN)
     async getUserCount() {
         return this.adminService.adminGetUsersCount()
     }
 
     @UseGuards(JwtAuthGuard)
+     @Roles(Role.ADMIN)
     @Get("/total_users")
     async getAllUsers() {
         return this.adminService.adminGetAllUsers()
@@ -31,6 +35,7 @@ export class AdminController {
 
     @UseGuards(JwtAuthGuard)
     @Get("/daily_signups")
+    @Roles(Role.ADMIN)
     async getDailySignup() {
         return this.adminService.adminGetDailySignups()
     }

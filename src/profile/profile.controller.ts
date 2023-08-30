@@ -25,6 +25,12 @@ export class ProfileController {
     async getProfile(@Req() req: Request & reqUser) {
         return await this.profileService.getProfile(req.user.id);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/make_admin")
+    async makeAdmin(@Req() req: Request & reqUser) {
+        return await this.profileService.makeAdmin(req.user.id);
+    }
     
     
     @UseGuards(JwtAuthGuard)
@@ -37,7 +43,7 @@ export class ProfileController {
     @Get("/claim_referral")
     async claimReferral(@Req() req: Request & reqUser) {
         return await this.profileService.claimReferral(req.user.id);
-     }
+    }
      
     @UseGuards(JwtAuthGuard)
     @Patch()

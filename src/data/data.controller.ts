@@ -6,6 +6,8 @@ import { updatedataDto } from './Dto/updatedataDto';
 import { dataParam } from './Dto/getdataDto';
 import { dataPurchaseDto } from './Dto/purchasedata.dto';
 import { reqUser } from 'src/type/Req';
+import { Roles } from 'src/profile/decorators/roles.decorator';
+import { Role } from 'src/auth/entity/auth.entity';
 
 @Controller('api/v1/data')
 export class DataController {
@@ -28,11 +30,13 @@ export class DataController {
 
     @UseGuards(JwtAuthGuard)
     @Patch("/update/:id")
+    @Roles(Role.ADMIN)
     async updateData(@Param("id") id:string, @Body()details: updatedataDto) {
         return await this.dataService.updateDataService(id,details)
     }
     
     @UseGuards(JwtAuthGuard)
+    @Roles(Role.ADMIN)
     @Get()
     async getAllData() {
         // this.emailService.sendMail("allpointgroups@gmail.com", " integration");
@@ -41,12 +45,14 @@ export class DataController {
 
     @UseGuards(JwtAuthGuard)
     @Get(":id")
+    @Roles(Role.ADMIN)
     async getData( @Param("id") id:string) {
         return await this.dataService.getDataByNetwork(id)
     }
 
     @UseGuards(JwtAuthGuard)
     @Get("/selected/:id")
+    @Roles(Role.ADMIN)
     async getDataById( @Param("id") id:string) {
         return await this.dataService.getDataById(id)
     }

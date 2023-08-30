@@ -22,6 +22,7 @@ import { ShowmaxModule } from './showmax/showmax.module';
 import { DstvModule } from './dstv/dstv.module';
 import { GotvModule } from './gotv/gotv.module';
 import { StartimesModule } from './startimes/startimes.module';
+import { RolesGuard } from './profile/guard/role.guard';
 
 @Module({
   imports: [
@@ -59,6 +60,10 @@ import { StartimesModule } from './startimes/startimes.module';
     {
       provide: APP_GUARD,
       useClass: ThrottlerGuard
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuard,
     },
   ],
 })

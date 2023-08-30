@@ -1,7 +1,7 @@
 import { Entity, Column, Index,OneToOne,JoinColumn,OneToMany } from "typeorm";
 import { IsString,IsPhoneNumber,IsEmail,IsEnum, IsBoolean,IsNumber, IsOptional} from "class-validator";
 import { BaseTable } from "src/base/baseTable";
-import { Auth } from "src/auth/entity/auth.entity";
+import { Auth, Role } from "src/auth/entity/auth.entity";
 import { Fund } from "src/fund/entity/create-fund";
 import { Peer } from "src/peer-transfer/entity/peer.entity";
 import { Airtime } from "src/airtime/entity/airtime.entity";
@@ -26,6 +26,7 @@ export enum Gender{
     Female = "female",
     Other = "other"
 }
+
 @Entity()
 export class Profile extends BaseTable {
     @Column({
@@ -56,6 +57,11 @@ export class Profile extends BaseTable {
     @Column({ default: 0})
     @IsNumber()
     point: number;
+
+    @Column({ type: 'enum', enum: Role, array: true, default: [Role.USER] })
+    @IsEnum(Role)
+    @IsOptional()
+    roles: Role[];
 
     @Column({type:"text", default: null})
     @IsString()

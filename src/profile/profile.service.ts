@@ -17,6 +17,7 @@ import { monifyDto } from './dto/monifyDto';
 import { monifyAccountEntity } from './entity/monifyAcount.entity';
 import { iMonnify } from './interface/imonnify';
 import { testFundDto } from 'src/fund/dto/testFundDto';
+import { Role } from 'src/auth/entity/auth.entity';
 
 
 @Injectable()
@@ -84,6 +85,20 @@ export class ProfileService {
      }
     
     async updateProfilePic() { }
+
+    async makeAdmin(id: string) {
+        const user = await this._find(id);
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+        const { roles } = user;
+        if (roles.includes(Role.ADMIN)) {
+            return "user already an admin";
+        }
+        user.roles.push(Role.ADMIN);
+        await this.profileRepository.save(user);
+        return user.id;
+    }
     
     async _find(id: string) {
         const user = await this.profileRepository.findOneBy({ id });
@@ -162,6 +177,9 @@ export class ProfileService {
     }
 
     async debitAccount(id: string, Amount: number) {
+        if (Amount <= 0) {
+            throw new BadRequestException("don't try that again")
+        }
         if (Amount <= 0) {
             throw new BadRequestException("invalid Amount");
         }
