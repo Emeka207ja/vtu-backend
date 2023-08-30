@@ -20,6 +20,7 @@ import { GotvEntity } from "src/gotv/entity/gotv.entity";
 import { showMaxEntity } from "src/showmax/entity/showmax.entity";
 import { DstvEntity } from "src/dstv/entity/dstv.entity";
 import { StartimesEntity } from "src/startimes/entity/startimes.entity";
+import { debitAccountEntity } from "src/profile/entity/debit.entity";
 
 export const typeormConfig: TypeOrmModuleAsyncOptions = {
    useFactory: async() => (
@@ -50,7 +51,8 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
         GotvEntity,
         DstvEntity,
         showMaxEntity,
-        StartimesEntity
+        StartimesEntity,
+        debitAccountEntity
       ],
     // entities: [AuthEntity,taskEntity],
 
