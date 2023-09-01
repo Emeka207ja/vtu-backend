@@ -98,18 +98,13 @@ export class DataService {
         return user.id;
     }
 
-    async getFailedTransactions(id: string,service:string) {
-        const user = await this.profileService._find(id);
-        if (!user) {
-            throw new NotFoundException("user not found")
-        }
-        // const type = service;
+    async getFailedTransactions(service:string) {
+        
         const pend = debitState.PENDING
         const qBuilder = this.debitAccountRepository.createQueryBuilder("debit")
         const debit = qBuilder
             .leftJoinAndSelect("debit.profile", "profile")
-            .where("profile.id = :id", { id })
-            .andWhere("debit.service = :service", { service })
+            .where("debit.service = :service", { service })
             .andWhere("debit.success = :pend", { pend })
             .getMany()
         return debit

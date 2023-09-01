@@ -61,7 +61,7 @@ export class DataController {
     @Get("/failed/:service")
     @Roles(Role.ADMIN)
     async getFailedTransactions( @Param("service") service:string,@Req() req:Request&reqUser) {
-        return await this.dataService.getFailedTransactions(req.user.id,service)
+        return await this.dataService.getFailedTransactions(service)
     }
 
     @UseGuards(JwtAuthGuard)
