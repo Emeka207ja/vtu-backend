@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable,NotFoundException } from '@nestjs/common';
+import { BadGatewayException, BadRequestException, Injectable,NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { dataEntity } from './Entity/dataEntity';
@@ -12,6 +12,7 @@ import { ProfileService } from 'src/profile/profile.service';
 import { purchaseEmail } from './interface/ipurchaseemail';
 import { debitAccountEntity } from 'src/profile/entity/debit.entity';
 import { debitState } from 'src/profile/entity/debit.entity';
+import { Subject } from 'rxjs';
 
 
 
@@ -111,14 +112,18 @@ export class DataService {
     }
     async refund(username: string, requestId: string) {
         const user = await this.profileService.findUserByName(username)
+        if (!user) {
+            throw new NotFoundException("user does not exist")
+        }
         const {id} = user
         const reqId = await this.debitAccountRepository.findOneBy({ requestId })
         if (!reqId) {
             throw new NotFoundException("request not found")
         }
-        if (!user) {
-            throw new NotFoundException("user does not exist")
+        if (reqId.success = debitState.REFUND) {
+            throw new BadGatewayException("transaction already refunded")
         }
+      
         const qBuilder = this.debitAccountRepository.createQueryBuilder("debit")
         const debit = qBuilder
             .leftJoinAndSelect("debit.profile", "profile")
@@ -128,6 +133,12 @@ export class DataService {
         const {amount} = await debit
         await this.profileService.manualFundingUpdateByID(id, amount)
             ; (await debit).success = debitState.REFUND;
+        
+        //send mail
+        const {name} = user
+        const tempMail = "asiwebrightemeka@gmail.com"
+        const sugject = "refund service"
+        await this.emailService.refundEmail(tempMail,sugject,name,amount,requestId)
         await this.debitAccountRepository.save( await debit)
     }
 

@@ -18,6 +18,7 @@ import { dstvMail } from './emails/dstvMail';
 import { dstvDto } from 'src/dstv/dto/dstv.dto';
 import { showmaxDto } from 'src/showmax/dto/showmax.dto';
 import { showmaxMail } from './emails/showmaxMail';
+import { refundMail } from './emails/refundMail';
 
 @Injectable()
 export class EmailService {
@@ -155,6 +156,16 @@ export class EmailService {
   } 
   async sendShowmaxSubMail(to: string, subject: string, name:string,detail:showmaxDto) {
       const html:string = showmaxMail(subject,name,detail)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to,
+      subject,
+      html
+    });
+  } 
+  async refundEmail(to: string, subject: string, name:string,amount:number,requestId:string) {
+      const html:string = refundMail(subject,name,amount,requestId)
    
     await this.transporter.sendMail({
       from: process.env.EMAIL,
