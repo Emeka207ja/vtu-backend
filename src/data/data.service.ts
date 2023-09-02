@@ -130,4 +130,25 @@ export class DataService {
             ; (await debit).success = debitState.REFUND;
         await this.debitAccountRepository.save( await debit)
     }
+
+    async cancelRefund(username: string, requestId: string) {
+        const user = await this.profileService.findUserByName(username)
+         if (!user) {
+            throw new NotFoundException("user does not exist")
+         }
+        
+        const debit = await this.debitAccountRepository.findOneBy({ requestId })
+        if (!debit) {
+            throw new NotFoundException("request not found")
+        }
+        console.log(debit)
+        if (debit.success !== debitState.PENDING) {
+            throw new BadRequestException("transaction not eligible for refund")
+        }
+        debit.success = debitState.SUCCESS;
+        await this.debitAccountRepository.save(debit)
+        return debit.id
+       
+        
+    }
 }

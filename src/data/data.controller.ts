@@ -71,6 +71,13 @@ export class DataController {
         return await this.dataService.refund(username,requestId)
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Get("/cancelrefund/:requestId/:username")
+    @Roles(Role.ADMIN)
+    async cancelRefund( @Param("requestId") requestId:string, @Param("username") username:string) {
+        return await this.dataService.cancelRefund(username,requestId)
+    }
+
 
 
 }
