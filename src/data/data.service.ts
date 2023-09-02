@@ -135,10 +135,10 @@ export class DataService {
             ; (await debit).success = debitState.REFUND;
         
         //send mail
-        const {name} = user
+        const {name,email} = user
         const tempMail = "asiwebrightemeka@gmail.com"
         const sugject = "refund service"
-        await this.emailService.refundEmail(tempMail,sugject,name,amount,requestId)
+        await this.emailService.refundEmail(email,sugject,name,amount,requestId)
         await this.debitAccountRepository.save( await debit)
     }
 
