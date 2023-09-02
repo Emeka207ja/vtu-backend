@@ -120,7 +120,7 @@ export class DataService {
         if (!reqId) {
             throw new NotFoundException("request not found")
         }
-        if (reqId.success = debitState.REFUND) {
+        if (reqId.success === debitState.REFUND) {
             throw new BadGatewayException("transaction already refunded")
         }
       
