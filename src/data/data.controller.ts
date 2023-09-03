@@ -37,7 +37,7 @@ export class DataController {
     
     @UseGuards(JwtAuthGuard)
     @Roles(Role.ADMIN)
-    @Get()
+    @Get("/alldata")
     async getAllData() {
         // this.emailService.sendMail("allpointgroups@gmail.com", " integration");
         return await this.dataService.getAllData()
