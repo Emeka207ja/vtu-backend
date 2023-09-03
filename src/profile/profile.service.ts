@@ -120,20 +120,11 @@ export class ProfileService {
     }
 
     async findUserByName(name: string) {
-        const cleanedUsername = name.replace(/\s+/g, '');
-        const qBuilder = this.profileRepository.createQueryBuilder("user")
+        const user = await this.profileRepository.findOne({
+            where:{username:name}
+        })
         
-        const user =  qBuilder
-            .where('REPLACE(user.username, \' \', \'\') = :cleanedUsername', { cleanedUsername })
-            .getOne();
-
-
-
-        // const user = await this.profileRepository.findOne({
-        //     where:{username:name.trim()}
-        // })
-        
-        // if (!user) throw new NotFoundException("user not found");
+        if (!user) throw new NotFoundException("user not found");
         return user;
     }
     
