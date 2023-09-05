@@ -18,10 +18,11 @@ export class DstvService {
         if (!user) {
             throw new NotFoundException("user not found")
         }
-        const { amount } = detail;
-        await this.profileService.debitAccount(id, amount)
+        const { amount,requestId } = detail;
+        // await this.profileService.debitAccount(id, amount)
         const dstv = this.dstvRepository.create(detail);
         dstv.profile = user
+        await this.profileService.findAndUpdateDebit(id,requestId)
         await this.dstvRepository.save(dstv);
 
         //mailing service

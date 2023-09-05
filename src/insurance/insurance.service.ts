@@ -23,11 +23,12 @@ export class InsuranceService {
             throw new NotFoundException("user not found")
         }
         
-        const { amount } = detail
-        await this.profileService.debitAccount(id, amount);
+        const { amount,requestId } = detail
+        // await this.profileService.debitAccount(id, amount);
         const vehicle = this.vehicleRepository.create(detail);
         vehicle.profile = user
         await this.vehicleRepository.save(vehicle);
+        await this.profileService.findAndUpdateDebit(id,requestId)
 
         // email service
         const { name, email } = user;
@@ -56,11 +57,12 @@ export class InsuranceService {
             throw new NotFoundException("user not found")
         }
         
-        const { total_amount,product_name } = detail;
-        await this.profileService.debitAccount(id, total_amount);
+        const { total_amount,product_name,requestId } = detail;
+        // await this.profileService.debitAccount(id, total_amount);
         const home = this.homeRepository.create(detail)
         home.profile = user
         await this.homeRepository.save(home);
+        await this.profileService.findAndUpdateDebit(id,requestId)
 
         // email service
         const { name, email } = user

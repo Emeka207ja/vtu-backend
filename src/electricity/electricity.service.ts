@@ -22,15 +22,16 @@ export class ElectricityService {
 
     async prepaidSub(id: string, details: prepaidDto) {
         const user = await this.profileService._find(id)
-        const { amount } = details
-        await this.profileService.debitAccount(id, amount)
+        const { amount,requestId } = details
+        // await this.profileService.debitAccount(id, amount)
         const Prepaid = this.prepaidRepository.create(details)
         Prepaid.profile = user;
         await this.prepaidRepository.save(Prepaid)
 
         const { email, name } = user
         const tempMail = "asiwebrightemeka@gmail.com"
-        await this.emailService.sendElectricityPurchaseMail(email,"prepaid subscription",name,details)
+        await this.emailService.sendElectricityPurchaseMail(email, "prepaid subscription", name, details)
+        await this.profileService.findAndUpdateDebit(id,requestId)
         return Prepaid.id;
     }
 
@@ -39,15 +40,16 @@ export class ElectricityService {
         if (!user) {
             throw new NotFoundException("user not found")
         }
-        const { amount } = details
-        await this.profileService.debitAccount(id, amount)
+        const { amount,requestId } = details
+        // await this.profileService.debitAccount(id, amount)
         const postpaid = this.postpaidRepository.create(details)
         postpaid.profile = user;
         await this.postpaidRepository.save(postpaid)
 
         const { email, name } = user
         const tempMail = "asiwebrightemeka@gmail.com"
-        await this.emailService.sendElectricityPurchaseMail(email,"postpaid subscription",name,details)
+        await this.emailService.sendElectricityPurchaseMail(email, "postpaid subscription", name, details)
+        await this.profileService.findAndUpdateDebit(id,requestId)
         return postpaid.id;
     }
 

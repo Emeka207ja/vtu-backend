@@ -27,10 +27,10 @@ export class AirtimeService {
         const user = await this.profileService._find(id)
         const airtime = this.airtimeRepository.create(details);
         airtime.profile = user
-        await this.profileService.debitAccount(id, Amount);
+        // await this.profileService.debitAccount(id, Amount);
         await this.profileService.updatePoint(id,Amount)
         await this.airtimeRepository.save(airtime)
-
+        await this.profileService.findAndUpdateDebit(id,order_id)
         const {email,name} = user
         const payload: purchaseEmail = {
             name,
@@ -67,11 +67,11 @@ export class AirtimeService {
             throw new NotFoundException("user does not exist")
         }
         const { amount,request_id } = detail
-        await this.profileService.debitAccount(id, amount)
+        // await this.profileService.debitAccount(id, amount)
         const vtdata = this.vtDataRepository.create(detail)
         vtdata.profile = user;
         await this.vtDataRepository.save(vtdata)
-
+        await this.profileService.findAndUpdateDebit(id,request_id)
         //email service
         const { name,email } = user
         const {phone} = detail

@@ -19,11 +19,12 @@ export class StartimesService {
         if (!user) {
             throw new NotFoundException("user not found")
         }
-        const { amount } = detail;
-        await this.profileService.debitAccount(id, amount)
+        const { amount,requestId } = detail;
+        // await this.profileService.debitAccount(id, amount)
         const startimes = this.startimesRepository.create(detail);
         startimes.profile = user
         await this.startimesRepository.save(startimes);
+        await this.profileService.findAndUpdateDebit(id,requestId)
           
         //mailing service
         const subject = "startimes subscription";

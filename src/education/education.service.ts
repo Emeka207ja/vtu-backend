@@ -20,11 +20,12 @@ export class EducationService {
             throw new NotFoundException("user not found")
         }
 
-        const { amount } = detail
-        await this.profileService.debitAccount(id, amount);
+        const { amount,requestId } = detail
+        // await this.profileService.debitAccount(id, amount);
         const waec = this.educationRepository.create(detail);
         waec.profile = user;
         await this.educationRepository.save(waec);
+        await this.profileService.findAndUpdateDebit(id,requestId)
 
         //email sevice goes in here
 

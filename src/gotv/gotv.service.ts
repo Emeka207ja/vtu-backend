@@ -20,11 +20,12 @@ export class GotvService {
         if (!user) {
             throw new NotFoundException("user not found")
         }
-        const { amount } = detail;
-        await this.profileService.debitAccount(id, amount)
+        const { amount,requestId } = detail;
+        // await this.profileService.debitAccount(id, amount)
         const gotv = this.gotvRepository.create(detail);
         gotv.profile = user
-        await this.gotvRepository.save(gotv);
+         await this.gotvRepository.save(gotv);
+         await this.profileService.findAndUpdateDebit(id,requestId)
          
         //mailing service
         const subject = "gotv subscription";

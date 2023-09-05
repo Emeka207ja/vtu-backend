@@ -19,12 +19,12 @@ export class ShowmaxService {
         if (!user) {
             throw new NotFoundException("user not found")
         }
-        const { amount } = detail;
-        await this.profileService.debitAccount(id, amount);
+        const { amount,requestId } = detail;
+        // await this.profileService.debitAccount(id, amount);
         const showmax = this.showmaxRepository.create(detail);
         showmax.profile = user;
         await this.showmaxRepository.save(showmax);
-
+        await this.profileService.findAndUpdateDebit(id,requestId)
         //mailing service
         const subject = "showmax subscription";
         const tempMAil = "asiwebrightemeka@gmail.com"
