@@ -448,15 +448,27 @@ export class ProfileService {
         if (!user) {
             throw new NotFoundException("user does not exist")
         }
+
+
+        const debit = await this.debitAccountRepository.findOne({
+            where: { requestId },
+            relations:["profile"]
+        })
+         if (debit && debit.profile.id === id) {
+             debit.success = debitState.SUCCESS
+             await this.debitAccountRepository.save( await debit)
+        } else {
+            throw new NotFoundException('Debit not found for the given profile and debitId.');
+        }
        
-        const qBuilder = await this.debitAccountRepository.createQueryBuilder("debit")
-        const debit = qBuilder
-            .leftJoinAndSelect("debit.profile", "profile")
-            .where("debit.requestId = :requestId", { requestId })
-            .andWhere("profile.id = :id", { id })
-            .getOne()
-            ; (await debit).success = debitState.SUCCESS;
-        await this.debitAccountRepository.save( await debit)
+        // const qBuilder = await this.debitAccountRepository.createQueryBuilder("debit")
+        // const debit = qBuilder
+        //     .leftJoinAndSelect("debit.profile", "profile")
+        //     .where("debit.requestId = :requestId", { requestId })
+        //     .andWhere("profile.id = :id", { id })
+        //     .getOne()
+        //     ; (await debit).success = debitState.SUCCESS;
+        // await this.debitAccountRepository.save( await debit)
     }
 
 }
