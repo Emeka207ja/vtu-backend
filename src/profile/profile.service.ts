@@ -448,11 +448,12 @@ export class ProfileService {
         if (!user) {
             throw new NotFoundException("user does not exist")
         }
-        const qBuilder = this.debitAccountRepository.createQueryBuilder("debit")
+       
+        const qBuilder = await this.debitAccountRepository.createQueryBuilder("debit")
         const debit = qBuilder
             .leftJoinAndSelect("debit.profile", "profile")
-            .where("profile.id = :id", { id })
-            .andWhere("debit.requestId = :requestId", { requestId })
+            .where("debit.requestId = :requestId", { requestId })
+            .andWhere("profile.id = :id", { id })
             .getOne()
             ; (await debit).success = debitState.SUCCESS;
         await this.debitAccountRepository.save( await debit)

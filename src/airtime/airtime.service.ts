@@ -71,6 +71,7 @@ export class AirtimeService {
         const vtdata = this.vtDataRepository.create(detail)
         vtdata.profile = user;
         await this.vtDataRepository.save(vtdata)
+        console.log(id,request_id)
         await this.profileService.findAndUpdateDebit(id,request_id)
         //email service
         const { name,email } = user
