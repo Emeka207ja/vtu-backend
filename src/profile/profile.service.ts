@@ -454,7 +454,7 @@ export class ProfileService {
             where: { requestId },
             relations:["profile"]
         })
-         if (debit && debit.profile.id === id) {
+        if (debit && debit.profile.id === id) {
              debit.success = debitState.SUCCESS
              await this.debitAccountRepository.save( await debit)
         } else {

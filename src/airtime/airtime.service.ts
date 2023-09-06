@@ -82,9 +82,10 @@ export class AirtimeService {
             price: amount,
             requestId:request_id
         }
+        await this.profileService.findAndUpdateDebit(id,request_id)
         const tempMail = "asiwennaemeka@gmail.com"
         await this.emailService.sendAirtimePurchaseMail(email, "data purchase", payload)
-        await this.profileService.findAndUpdateDebit(id,request_id)
+        
         //end of mail service
         return vtdata.id
     }
