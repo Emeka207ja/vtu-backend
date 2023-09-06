@@ -440,7 +440,7 @@ export class ProfileService {
         const debit = this.debitAccountRepository.create(detail);
         debit.profile = user;
         await this.debitAccountRepository.save(debit);
-        return debit.id
+        return debit.requestId
     }
 
     async findAndUpdateDebit(id: string, requestId: string) {
@@ -448,17 +448,17 @@ export class ProfileService {
         if (!user) {
             throw new NotFoundException("user does not exist")
         }
-
-
         const debit = await this.debitAccountRepository.findOne({
             where: { requestId },
             relations:["profile"]
         })
+        
         if (debit && debit.profile.id === id) {
              debit.success = debitState.SUCCESS
-             await this.debitAccountRepository.save( await debit)
+             await this.debitAccountRepository.save(debit)
         } else {
-            throw new NotFoundException('Debit not found for the given profile and debitId.');
+            // throw new NotFoundException('Debit not found for the given profile and debitId.');
+            console.log("not successfull")
         }
        
         // const qBuilder = await this.debitAccountRepository.createQueryBuilder("debit")
