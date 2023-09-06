@@ -72,7 +72,7 @@ export class AirtimeService {
         vtdata.profile = user;
         await this.vtDataRepository.save(vtdata)
         console.log(id,request_id)
-        await this.profileService.findAndUpdateDebit(id,request_id)
+       
         //email service
         const { name,email } = user
         const {phone} = detail
@@ -84,7 +84,7 @@ export class AirtimeService {
         }
         const tempMail = "asiwennaemeka@gmail.com"
         await this.emailService.sendAirtimePurchaseMail(email, "data purchase", payload)
-        
+        await this.profileService.findAndUpdateDebit(id,request_id)
         //end of mail service
         return vtdata.id
     }
