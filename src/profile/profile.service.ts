@@ -407,12 +407,18 @@ export class ProfileService {
         }
         const profile = (await user).profile
         
-        const {amountPaid } = detail.eventData
+        const { amountPaid } = detail.eventData
+        if (amountPaid < 200) {
+            const charge = 0.01 * amountPaid
+            const amt = amountPaid - charge
+            profile.balance += amt;
+            return amt
+        }
         const charge = 0.015 * amountPaid
         const amt = amountPaid-charge
         profile.balance += amt
         await this.profileRepository.save(profile)
-        return (await user).id
+        return amt
         
     }
      async addTestFund(id: string, detail: testFundDto) {
