@@ -407,8 +407,9 @@ export class ProfileService {
         }
         const profile = (await user).profile
         
-        const {settlementAmount } = detail.eventData
-        const amt = parseFloat(settlementAmount)
+        const {amountPaid } = detail.eventData
+        const charge = 0.015 * amountPaid
+        const amt = amountPaid-charge
         profile.balance += amt
         await this.profileRepository.save(profile)
         return (await user).id
