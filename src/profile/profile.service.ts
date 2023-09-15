@@ -410,15 +410,26 @@ export class ProfileService {
         const { amountPaid } = detail.eventData
         if (amountPaid < 200) {
             const charge = 0.01 * amountPaid
-            const amt = amountPaid - charge
+            const amt = Math.floor( amountPaid - charge)
+
             profile.balance += amt;
+            await this.profileRepository.save(profile)
+            return amt
+        } else if (amountPaid < 1000) {
+            const charge = 0.015 * amountPaid
+            const amt = amountPaid-charge
+            profile.balance += amt
+            await this.profileRepository.save(profile)
+            return amt
+        } else {
+            const charge = 0.02 * amountPaid
+            const amt = amountPaid-charge
+            profile.balance += amt
+            await this.profileRepository.save(profile)
             return amt
         }
-        const charge = 0.015 * amountPaid
-        const amt = amountPaid-charge
-        profile.balance += amt
-        await this.profileRepository.save(profile)
-        return amt
+
+       
         
     }
      async addTestFund(id: string, detail: testFundDto) {
