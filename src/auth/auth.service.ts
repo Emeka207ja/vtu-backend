@@ -10,13 +10,18 @@ import { Token } from './interface/jwtToken';
 import { ProfileService } from 'src/profile/profile.service';
 import { loginDto } from './dto/loginDto';
 import { referralDto } from './dto/referral.dto';
+import { ForgotPasswordDto } from 'src/profile/dto/forgot-password.dto';
+import { EmailService } from 'src/data/email.service';
+import { ResetPasswordDto } from './dto/loginDto';
+
 
 @Injectable()
 export class AuthService {
     constructor(
         @InjectRepository(Auth) private readonly authRepository: Repository<Auth>,
         private jwtService: JwtService,
-        private readonly profileService:ProfileService,
+        private readonly profileService: ProfileService,
+        private readonly emailService:EmailService
     ) { }
 
     async signup(userDto: signupDto): Promise<string> { 
@@ -84,7 +89,7 @@ export class AuthService {
            if (usernameExist) throw new BadRequestException("username taken");
     }
 
-    async _find(id: string): Promise<Auth|Error> {
+    async _find(id: string) {
         const user = await this.authRepository.findOneBy({ id })
         if(!user) throw new NotFoundException("user not found")
             return user;
@@ -165,6 +170,35 @@ export class AuthService {
             .where("user.created_at >= :twentyFourHoursAgo", { twentyFourHoursAgo })
             .getMany()
         return daily;
+    }
+      async sendForgotPasswordMail(detail: ForgotPasswordDto) {
+        const {email} = detail
+        const user = await this.authRepository.findOneBy({email})
+        if (!user) {
+            throw new NotFoundException("wrong credentials")
+        }
+        const jwtPayload: payload = {
+            id: user.id,
+            role:user.role
+        }
+        const token = this.jwtService.sign(jwtPayload)
+        const subject = "password reset"
+        const { name } = user
+          await this.emailService.resetPasswordMail(subject, email, token, name)
+          return email
+      }
+    async resetPassword(detail: ResetPasswordDto) {
+        const { password, token} = detail
+        console.log(token)
+        const idx = await this.decodeToken(token)
+        if (!idx) {
+            throw new NotFoundException("invalid credentiatials")
+        }
+        const user = await this._find(idx)
+        const newPassword =await  user.hashPassword(password)
+        user.password = newPassword
+        await this.authRepository.save(user)
+        return idx
     }
     
 }

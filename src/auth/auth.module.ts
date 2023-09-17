@@ -10,6 +10,7 @@ import { LocalStrategy } from './strategy/local-strategy';
 import { JwtStrategy } from './strategy/jwt-strategy';
 import { JwtAuthGuard } from './guard/jwtGuard';
 import { PassportModule } from '@nestjs/passport';
+import { DataModule } from 'src/data/data.module';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Auth]),
@@ -23,7 +24,8 @@ import { PassportModule } from '@nestjs/passport';
     }),
   
     ProfileModule,
-    PassportModule
+    PassportModule,
+    DataModule
   ],
   providers: [AuthService,LocalStrategy,JwtStrategy,JwtAuthGuard],
   controllers: [AuthController],

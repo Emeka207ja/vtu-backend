@@ -19,6 +19,7 @@ import { dstvDto } from 'src/dstv/dto/dstv.dto';
 import { showmaxDto } from 'src/showmax/dto/showmax.dto';
 import { showmaxMail } from './emails/showmaxMail';
 import { refundMail } from './emails/refundMail';
+import { forgotPasswordMail } from './emails/forgot-passwordMail';
 
 @Injectable()
 export class EmailService {
@@ -170,6 +171,16 @@ export class EmailService {
     await this.transporter.sendMail({
       from: process.env.EMAIL,
       to,
+      subject,
+      html
+    });
+  } 
+   async resetPasswordMail(subject: string, email:string,token:string,name:string) {
+    const html:string = forgotPasswordMail(subject,email,token,name)
+   
+    await this.transporter.sendMail({
+      from: process.env.EMAIL,
+      to:email,
       subject,
       html
     });

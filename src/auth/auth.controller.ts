@@ -5,6 +5,8 @@ import { signupDto } from './dto/signupDto';
 import { loginDto } from './dto/loginDto';
 import { LocalAuthGuard } from './guard/local-guard';
 import { referralDto } from './dto/referral.dto';
+import { ForgotPasswordDto } from 'src/profile/dto/forgot-password.dto'
+import { ResetPasswordDto } from './dto/loginDto';
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -47,5 +49,16 @@ export class AuthController {
     async generateReferrallink(@Body() user: referralDto) {
        
         return this.authService.generateReferralLink(user)
+    }
+    @Post("/forgotpassword")
+    async sendForgotPasswordMail(@Body() email: ForgotPasswordDto) {
+       
+        return this.authService.sendForgotPasswordMail(email)
+    }
+
+    @Post("/resetpassword")
+    async Resetpasword(@Body() detail: ResetPasswordDto) {
+       
+        return this.authService.resetPassword(detail)
     }
 }

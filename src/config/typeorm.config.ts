@@ -72,7 +72,7 @@ export const typeormConfig: TypeOrmModuleAsyncOptions = {
 
     password: "imprint",
 
-    database:  "vtu",
+    database:  "vtu2",
 
     synchronize: true,
 

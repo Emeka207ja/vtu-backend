@@ -23,13 +23,14 @@ import { debitAccountEntity } from './entity/debit.entity';
 import { debitDto } from './dto/debit.dto';
 import { debitState } from './entity/debit.entity';
 
+import { JwtService } from '@nestjs/jwt';
 @Injectable()
 export class ProfileService {
     constructor(
         @InjectRepository(Profile) private readonly profileRepository: Repository<Profile>,
         @InjectRepository(koraid) private readonly korarepository:Repository<koraid>,
         @InjectRepository(monifyAccountEntity) private readonly monnifyRepository:Repository<monifyAccountEntity>,
-        @InjectRepository(debitAccountEntity) private readonly debitAccountRepository:Repository<debitAccountEntity>
+        @InjectRepository(debitAccountEntity) private readonly debitAccountRepository: Repository<debitAccountEntity>,
     ) { }
     
     async createProfile(profileDto: createProfileDto): Promise<Profile> {
@@ -110,6 +111,11 @@ export class ProfileService {
         const user = await this.profileRepository.findOneBy({ id });
         if (!user) throw new NotFoundException("user not found");
         return user;
+    }
+
+    async findUserByMail(email: string) {
+        const user = await this.profileRepository.findOneBy({ email })
+        return user
     }
 
     async updateUserReferral(id: string) {
@@ -489,5 +495,6 @@ export class ProfileService {
         //     ; (await debit).success = debitState.SUCCESS;
         // await this.debitAccountRepository.save( await debit)
     }
+  
 
 }
