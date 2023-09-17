@@ -30,7 +30,7 @@ export const forgotPasswordMail = (subject:string, email:string,token:string,nam
           <p>dear ${name}</p>
           <p>you requested for password reset </p>
           <p> click on the link below to reset your password </p>
-          <p> https://allpoint.vercel.app/forgotpassword?token=${token} </p>
+          <p> https://allpoint.vercel.app/resetpassword?token=${token} </p>
           <p>please ignore this mail if you did not initiate this process</p>
           <p>thanks for using allpointvtu, we appreciate big time!</p>
           <p>do well to follow our social media channels</p>

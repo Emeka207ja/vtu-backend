@@ -185,7 +185,7 @@ export class AuthService {
         const subject = "password reset"
         const { name } = user
           await this.emailService.resetPasswordMail(subject, email, token, name)
-          return email
+          return user.id
       }
     async resetPassword(detail: ResetPasswordDto) {
         const { password, token} = detail
@@ -198,7 +198,13 @@ export class AuthService {
         const newPassword =await  user.hashPassword(password)
         user.password = newPassword
         await this.authRepository.save(user)
-        return idx
+
+          const jwtPayload: payload = {
+            id: user.id,
+            role:user.role
+        }
+        const access_token = this.jwtService.sign(jwtPayload)
+        return access_token
     }
     
 }
