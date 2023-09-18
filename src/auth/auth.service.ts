@@ -183,8 +183,8 @@ export class AuthService {
         }
         const token = this.jwtService.sign(jwtPayload)
         const subject = "password reset"
-        const { name } = user
-          await this.emailService.resetPasswordMail(subject, email, token, name)
+        const {username} = user
+          await this.emailService.resetPasswordMail(subject, email, token, username)
           return user.id
       }
     async resetPassword(detail: ResetPasswordDto) {
