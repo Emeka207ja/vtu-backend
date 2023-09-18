@@ -181,7 +181,7 @@ export class AuthService {
             id: user.id,
             role:user.role
         }
-        const token = this.jwtService.sign(jwtPayload)
+        const token = this.jwtService.sign(jwtPayload,{expiresIn:"10min", secret:process.env.JWT_SECRET})
         const subject = "password reset"
         const {username} = user
           await this.emailService.resetPasswordMail(subject, email, token, username)
