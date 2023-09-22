@@ -415,23 +415,26 @@ export class ProfileService {
         
         const { amountPaid } = detail.eventData
         if (amountPaid < 200) {
-            const charge = 0.01 * amountPaid
+            const charge = 0.02 * amountPaid
             const amt = Math.floor( amountPaid - charge)
-
+            console.log(amt)
             profile.balance += amt;
             await this.profileRepository.save(profile)
-            return amt
-        } else if (amountPaid < 1000) {
+            return amountPaid
+        } else if (amountPaid > 199 && amountPaid < 1000) {
             const charge = 0.015 * amountPaid
-            const amt = amountPaid-charge
-            profile.balance += amt
+            const amt = amountPaid - charge
+            const settledAmt = Math.ceil(amt)
+            profile.balance += settledAmt
             await this.profileRepository.save(profile)
-            return amt
+           
+            return settledAmt
         } else {
             const charge = 0.02 * amountPaid
             const amt = amountPaid-charge
             profile.balance += amt
             await this.profileRepository.save(profile)
+            //202308111652ad8ef08acd8fc0f
             return amt
         }
 
