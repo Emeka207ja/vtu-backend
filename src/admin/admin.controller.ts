@@ -42,7 +42,7 @@ export class AdminController {
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get("/getuser")
+    @Post("/getuser")
     @Roles(Role.ADMIN)
     async getUser(@Body() payload:getuserDto) {
         return this.adminService.getUser(payload)
