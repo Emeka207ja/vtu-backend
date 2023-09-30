@@ -22,6 +22,9 @@ import { usernameDto } from './dto/username.dto';
 import { debitAccountEntity } from './entity/debit.entity';
 import { debitDto } from './dto/debit.dto';
 import { debitState } from './entity/debit.entity';
+import { updateBalanceDto, balanceUpdateType, getuserDto } from './dto/updateBalance.dto';
+import { updateProfilePicDto } from './dto/updateProfilePic.dto';
+// import { getuserDto } from './dto/updateBalance.dto';
 
 import { JwtService } from '@nestjs/jwt';
 @Injectable()
@@ -499,5 +502,38 @@ export class ProfileService {
         // await this.debitAccountRepository.save( await debit)
     }
   
+    async getUser(payload: getuserDto) {
+        const {name} = payload
+        const user = await this.findUserByName(name)
+        if(!user){
+            throw new NotFoundException("user not found")
+        }
+        return user
+    }
+    async updateUserBalance(id: string,payload:updateBalanceDto) {
+        const user = await this._find(id)
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+        const {type,amount} = payload
+        if (type === balanceUpdateType.ADDITION) {
+            user.balance+=amount
+        }
+        else if (type === balanceUpdateType.SUBSTRACTION) {
+            user.balance-=amount
+        }
+        await this.profileRepository.save(user)
+        return user.id
+        
+    }
 
+    async updateProfilePicture(id: string, payload: updateProfilePicDto) {
+        const user = await this._find(id)
+        if (!user) {
+            throw new NotFoundException("user not found")
+        }
+        user.image = payload.image
+        await this.profileRepository.save(user)
+        return user.id
+    }
 }

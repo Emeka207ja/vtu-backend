@@ -15,6 +15,7 @@ import { iMonnify } from './interface/imonnify';
 import { testFundDto } from 'src/fund/dto/testFundDto';
 import { usernameDto } from './dto/username.dto';
 import { debitDto } from './dto/debit.dto';
+import { getuserDto } from './dto/updateBalance.dto';
 
 @Controller('api/v1/profile')
 export class ProfileController {
@@ -129,4 +130,6 @@ export class ProfileController {
     async addTestFund( @Req() req: Request & reqUser,@Body() data :testFundDto) {
         return await this.profileService.addTestFund(req.user.id,data)
     }
+
+    
 }

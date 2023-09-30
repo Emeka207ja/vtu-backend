@@ -1,10 +1,11 @@
-import { Controller, Post, Get, UseGuards ,Body} from '@nestjs/common';
+import { Controller, Post, Get, UseGuards ,Body,Param,Patch} from '@nestjs/common';
 import { JwtAuthGuard } from 'src/auth/guard/jwtGuard';
 import { AdminService } from './admin.service';
 import { searchUserDto } from './dto/searchuser.dto';
 import {fundUpdateDto} from "./dto/fundingUpdate.dto"
 import { Roles } from 'src/profile/decorators/roles.decorator';
 import { Role } from 'src/auth/entity/auth.entity';
+import { getuserDto, updateBalanceDto } from 'src/profile/dto/updateBalance.dto';
 
 @Controller('api/v1/admin')
 export class AdminController {
@@ -38,6 +39,20 @@ export class AdminController {
     @Roles(Role.ADMIN)
     async getDailySignup() {
         return this.adminService.adminGetDailySignups()
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get("/getuser")
+    @Roles(Role.ADMIN)
+    async getUser(@Body() payload:getuserDto) {
+        return this.adminService.getUser(payload)
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch("/updateuserbalance/:id")
+    @Roles(Role.ADMIN)
+    async updateUserBalance( @Param("id") id:string, @Body() payload:updateBalanceDto) {
+        return this.adminService.updateUserBalance(id,payload)
     }
 
     @UseGuards(JwtAuthGuard)

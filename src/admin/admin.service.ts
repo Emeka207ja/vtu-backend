@@ -3,6 +3,7 @@ import { ProfileService } from 'src/profile/profile.service';
 import { AuthService } from 'src/auth/auth.service';
 import { searchUserDto } from './dto/searchuser.dto';
 import { fundUpdateDto } from './dto/fundingUpdate.dto';
+import { getuserDto, updateBalanceDto } from 'src/profile/dto/updateBalance.dto';
 
 @Injectable()
 export class AdminService {
@@ -43,4 +44,11 @@ export class AdminService {
         const daily = await this.authService.getDailySignup()
         return daily;
     }
+    async getUser(payload: getuserDto) {
+        console.log(payload)
+        return await this.profileService.getUser(payload)
+    }
+    async updateUserBalance(id: string, payload: updateBalanceDto) {
+        return this.profileService.updateUserBalance(id,payload)
+     }
 }
