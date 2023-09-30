@@ -515,7 +515,10 @@ export class ProfileService {
         if (!user) {
             throw new NotFoundException("user not found")
         }
-        const {type,amount} = payload
+        const { type, amount } = payload
+        if (user.balance < amount || amount <= 0) {
+            throw new BadRequestException("bad move,not allowed")
+        }
         if (type === balanceUpdateType.ADDITION) {
             user.balance+=amount
         }
