@@ -8,8 +8,8 @@ export class updateBalanceDto{
     @IsString()
     @IsNotEmpty()
     @NotContains(" ")
-    @IsEnum(balanceUpdateType)
-    type: balanceUpdateType;
+ 
+    type: string;
 
     @IsNumber()
     @IsNotEmpty()
