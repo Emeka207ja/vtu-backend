@@ -516,13 +516,14 @@ export class ProfileService {
             throw new NotFoundException("user not found")
         }
         const { type, amount } = payload
-        if (user.balance < amount || amount <= 0) {
-            throw new BadRequestException("bad move,not allowed")
-        }
+       
         if (type === balanceUpdateType.ADDITION) {
             user.balance+=amount
         }
         else if (type === balanceUpdateType.SUBSTRACTION) {
+            if (user.balance < amount || amount <= 0) {
+                throw new BadRequestException("bad move,not allowed")
+            }
             user.balance-=amount
         }
         await this.profileRepository.save(user)
