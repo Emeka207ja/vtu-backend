@@ -523,7 +523,7 @@ export class ProfileService {
             user.balance-=amount
         }
         await this.profileRepository.save(user)
-        return user.id
+        return user.id;
         
     }
 
