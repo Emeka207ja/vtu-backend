@@ -133,7 +133,7 @@ export class AuthService {
             role:user.role
         }
         const token = await this.jwtService.signAsync(jwtPayload)
-        const link = `http://easy-buy-psi.vercel.app/signup?referral=${token}`
+        const link = `https://allpoint.vercel.app/signup?referral=${token}`
         return link;
 
     }
