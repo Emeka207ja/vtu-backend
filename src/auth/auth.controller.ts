@@ -6,7 +6,7 @@ import { loginDto } from './dto/loginDto';
 import { LocalAuthGuard } from './guard/local-guard';
 import { referralDto } from './dto/referral.dto';
 import { ForgotPasswordDto } from 'src/profile/dto/forgot-password.dto'
-import { ResetPasswordDto } from './dto/loginDto';
+import { ResetPasswordDto,EmailLogindto } from './dto/loginDto';
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -23,6 +23,12 @@ export class AuthController {
     @Post("/login")
     async login(@Body() loginDetails: loginDto) {
         return await this.authService.login(loginDetails);
+    }
+
+    
+    @Post("/emaillogin")
+    async Emaillogin(@Body() loginDetails: EmailLogindto) {
+        return await this.authService.Emaillogin(loginDetails);
     }
 
     @Get("/vtu_auth")

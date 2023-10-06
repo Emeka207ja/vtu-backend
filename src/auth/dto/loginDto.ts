@@ -18,3 +18,10 @@ export class ResetPasswordDto{
     @IsNotEmpty()
     token: string;
 }
+export class EmailLogindto{
+    @IsString()
+    @IsNotEmpty()
+    email: string;
+
+   
+}

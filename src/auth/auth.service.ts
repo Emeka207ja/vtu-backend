@@ -13,6 +13,7 @@ import { referralDto } from './dto/referral.dto';
 import { ForgotPasswordDto } from 'src/profile/dto/forgot-password.dto';
 import { EmailService } from 'src/data/email.service';
 import { ResetPasswordDto } from './dto/loginDto';
+import { EmailLogindto } from './dto/loginDto';
 
 
 @Injectable()
@@ -64,6 +65,19 @@ export class AuthService {
             access_token : this.jwtService.sign(jwtPayload)
         };
     }
+
+    async Emaillogin(loginDetails: EmailLogindto) { 
+        const {email} = loginDetails
+        const user = await this._verifyEmailLogin(email);
+
+        const jwtPayload: payload = {
+            id: user.id,
+            role:user.role
+        }
+        return {
+            access_token : this.jwtService.sign(jwtPayload)
+        };
+    }
     
     async _verifyUser(username: string, password: string) { 
        
@@ -82,6 +96,12 @@ export class AuthService {
     async _verifyEmail(email: string) {
        const emailExist = await this.authRepository.findOneBy({ email });
             if (emailExist) throw new BadRequestException("email not available");
+    }
+
+    async _verifyEmailLogin(email: string) {
+       const emailExist = await this.authRepository.findOneBy({ email });
+        if (!emailExist) throw new BadRequestException("email not existing");
+        return emailExist
     }
 
     async _verifyUsername(username: string) {
